@@ -1,0 +1,213 @@
+/* Left Side Nav */
+
+.sidenav {
+  height: 100%; 
+  width: 0; 
+  position: fixed; 
+  z-index: 1; 
+  top: 0; 
+  left: 0;
+  background-color: #111; 
+  overflow-x: hidden; 
+  padding-top: 10px; 
+  transition: 0.5s;
+}
+
+.sidenav .toplinks{
+  position: relative;
+  top: 150px;
+  margin-left: 30px;
+}
+
+.sidenav a {
+  padding: 32px 32px 32px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn{
+  top: 5%;
+}
+
+.sidenav img, .closebtn img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    padding-left: 50px;
+    margin-left: 0;
+}
+
+.closebtn label{
+  position: absolute;
+  cursor: pointer;
+  top: 15%;
+  left: 100%;
+  margin-left: 10px;
+}
+
+/* Right Side Navigation */
+.sidenav1 {
+  height: 100%; 
+  width: 300px; 
+  position: fixed; 
+  z-index: 1; 
+  top: 0; 
+  right: 0;
+  background-color: #111; 
+  overflow-x: hidden; 
+  padding-top: 20px; 
+  transition: 0.5s;
+}
+
+.sidenav1 .interaction{
+  padding: 8px 8px 8px 16px;
+}
+
+.sidenav1 .interaction img{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.sidenav1 .interaction h1{
+  color: aqua;
+  display: none;
+}
+
+.arrow img{
+  width: 100px;
+  height: 200px;
+}
+.arrow{
+  margin-left: 10px;
+}
+
+.keyboard{
+  top: 75%;
+  margin-left: 30px;
+  z-index: -1;
+}
+
+.arrow, .keyboard{
+  position: absolute;
+}
+
+
+
+
+/* Main Content */
+
+#main {
+  transition: margin-left .5s;
+  margin-right: 250px;
+  margin-left: 50px;
+}
+
+#leftnav{
+    position: absolute;
+    text-decoration: none;
+    font-size: 25px;
+    color: #d6d5d5;
+    display: block;
+    transition: 0.3s;
+    margin-left: -30px;
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+#leftnav label:hover{
+    color: #818181;
+}
+
+#leftnav img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+/* Cards  */
+.column {
+  float: left;
+  padding: 0 10px;
+}
+
+.row {
+    margin: 0 150px;
+    padding-bottom: 20px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  width: 300px;
+  height: 400px;
+  transition: 0.3s;
+}
+
+.card img{
+    width: 300px;
+    height: 300px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+
+.block {
+  display: block;
+  width: 80%;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  border: none;
+  margin-left: 20px;
+  background-color: rgb(18, 153, 216);
+  padding: 14px 14px 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.block:hover {
+  box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
+}
+
+/* Success and main blocks */
+
+.block0{
+  display: block;
+}
+
+.block1{
+  display: none;
+}
+
+.block0, .block1{
+  position: absolute;
+  margin-left: 50px;
+  z-index: -1;
+}
+
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
