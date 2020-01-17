@@ -56,15 +56,11 @@ updatePosition = (moveElement, referenceElementId) =>{
 
 successEvent = ()=>{
     block0.style.opacity = 0
-    block0.style.zIndex = -1000
-    block1.style.zIndex = 1000
     block1.style.opacity = 1
 }
 
 failureEvent = ()=>{
     block1.style.opacity = 0
-    block1.style.zIndex = -1000
-    block0.style.zIndex = 1000
     block0.style.opacity = 1
     voiceAssistant(`Please Click On the Voice Assistant Image to Know Which Key To Press`)
 }

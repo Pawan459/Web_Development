@@ -99,6 +99,8 @@ body{
   font-size: 10rem;
   z-index: 1000000;
   position: absolute;
+  width: 0;
+  height: 0;
 }
 
 /* Arrow Bouncing Animation */
