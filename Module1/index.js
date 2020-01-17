@@ -44,6 +44,7 @@ window.onkeypress = (e)=>{
         block0.style.display = 'none'
         block1.style.transition = 'all 1s ease-in-out'
         block1.style.display = 'block'
+        voiceAssistant('You Presed A on Keyboard')
     }
 }
 
