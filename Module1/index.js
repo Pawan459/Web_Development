@@ -12,6 +12,7 @@ let key = String.fromCharCode(keyCode)
 voiceAssistant = (msg) => {
     message.innerText = `Now time to press ${String.fromCharCode(keyCode - 32)} in keyboard`
     message.style.display = 'block'
+    updatePosition(arrow, key)
     let speech = new SpeechSynthesisUtterance()
     speech.rate = 0.7
     speech.pitch = 1
@@ -23,6 +24,7 @@ voiceAssistant = (msg) => {
 
     setTimeout(()=>{
         message.style.display = 'none'
+        updatePosition(arrow, key)
     },5000)
 }
 
@@ -62,6 +64,7 @@ window.onload = (e)=>{
 }
 
 window.onkeypress = (e)=>{
+    if (keyCode == 132) return
     if(e.key == key){
         block0.style.opacity = 0
         block0.style.zIndex = -1000
