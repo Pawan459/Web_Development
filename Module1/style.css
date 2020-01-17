@@ -92,13 +92,7 @@ body{
   display: none;
 }
 
-
-@keyframes bounce {
-   0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
-   40% {transform: translateY(-60px);} 
-   60% {transform: translateY(-35px);} 
-} 
-
+/* Arrow here */
 .arrow{
   animation: bounce 1s infinite;
   color: #14B524;
@@ -107,6 +101,12 @@ body{
   position: absolute;
 }
 
+/* Arrow Bouncing Animation */
+@keyframes bounce {
+   0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
+   40% {transform: translateY(-60px);} 
+   60% {transform: translateY(-35px);} 
+} 
 
  /* Keyboard CSS */
 .keyboard{
@@ -121,20 +121,6 @@ body{
   left: -125px;
   transition: all 0.8s ease-in-out;
 }
-
-.logo{
-  width:40px; height:40px;
-  background-color:#CCC;
-  color: #222;
-  font-weight:300;
-  font-style: oblique;
-  font-size:30px;
-  line-height:40px;
-  text-align:center;
-  margin: -20px auto 10px auto;
-  border-radius:40px;
-}
-
 
 .lights{
   float:right;
@@ -168,9 +154,11 @@ body{
   transition: box-shadow 0.7s ease;
 }
 
+/* Rows Of KeyBoard */
 .section-a{width:650px; height:260px; float:left;}
 .section-b{width:150px; height:260px; float:left;}
 
+/* Special Keys in Keyboard */
 .function{font-size: 12px; width:30px; height:30px; margin-bottom:15px;}
 .small{font-size:10px; line-height:13px; text-align: center; padding:0 5px; padding-top:2px; height:28px !important;}
 .space1{margin-right: 43px !important;}
@@ -194,6 +182,16 @@ body{
 
 .key:hover{box-shadow:0px 5px 10px rgb(5, 7, 133); z-index:1000;}
 
+@keyframes fadeInOut{
+  from{
+    box-shadow: 0 0 0 0;
+    font-size: 1rem;
+  }
+  to{
+    box-shadow:0px 5px 10px rgb(5, 7, 133);
+    font-size: 1.5rem;
+  }
+}
 
 
 /* Main Content */
@@ -242,6 +240,7 @@ body{
   display: table;
   clear: both;
 }
+
 .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   width: 300px;
@@ -280,14 +279,15 @@ body{
   box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
 }
 
+
 /* Success and main blocks */
 
 .block0{
-  display: block;
+  opacity: 1;
 }
 
 .block1{
-  display: none;
+  opacity: 0;
 }
 
 .block0, .block1{

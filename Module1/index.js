@@ -46,11 +46,27 @@ CloseNav = () => {
 
 updatePosition = (moveElement, referenceElementId) =>{
     let elem = document.getElementById(referenceElementId)
+    elem.style.animation = 'fadeInOut 0.6s infinite'
     elem = elem.getBoundingClientRect()
     moveElement.style.left = (elem.left-25) + 'px'
     moveElement.style.top = (elem.top-194) +'px'
     moveElement.style.bottom = elem.bottom + 'px'
     moveElement.style.right = elem.right + 'px'
+}
+
+successEvent = ()=>{
+    block0.style.opacity = 0
+    block0.style.zIndex = -1000
+    block1.style.zIndex = 1000
+    block1.style.opacity = 1
+}
+
+failureEvent = ()=>{
+    block1.style.opacity = 0
+    block1.style.zIndex = -1000
+    block0.style.zIndex = 1000
+    block0.style.opacity = 1
+    voiceAssistant(`Please Click On the Voice Assistant Image to Know Which Key To Press`)
 }
 
 window.onresize = (e)=>{
@@ -66,15 +82,15 @@ window.onload = (e)=>{
 window.onkeypress = (e)=>{
     if (keyCode == 132) return
     if(e.key == key){
-        block0.style.opacity = 0
-        block0.style.zIndex = -1000
-        block1.style.zIndex = 1000
-        block1.style.opacity = 1
-        block1.style.display = 'block'
+        successEvent()
+        document.getElementById(key).style.animation = 'none'
         keyCode += 1
         key = String.fromCharCode(keyCode)
         updatePosition(arrow, key)
         voiceAssistant(`You pressed ${String.fromCharCode(keyCode-33)} in keyboard`)
+    }
+    else{
+        failureEvent()
     }
 }
 
