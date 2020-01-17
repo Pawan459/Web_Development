@@ -3,6 +3,10 @@ const voiceAssis = document.getElementById('voice-assis')
 const block0 =  document.getElementById('block0')
 const block1 = document.getElementById('block1')
 const message = document.getElementById('message')
+const keyboard = document.getElementById('keyboard')
+const arrow = document.getElementById('arrow')
+const key = 'a'
+let isNavOpen = false
 
 voiceAssistant = (msg) => {
     message.style.display = 'block'
@@ -25,6 +29,7 @@ OpenNav = () => {
     document.getElementById("main").style.marginLeft = "140px"
     leftNav.style.transition = "all 1s ease"
     leftNav.style.display = 'none'
+    isNavOpen = true
 }
 
 CloseNav = () => {
@@ -32,17 +37,24 @@ CloseNav = () => {
     document.getElementById("main").style.marginLeft = "50px";
     leftNav.style.transition = "all 1s ease"
     leftNav.style.display = 'block'
+    isNavOpen = false
 }
 
 window.onload = ()=>{
     OpenNav()
     setTimeout(CloseNav, 2000);
+    // let elem = document.getElementById(key)
+    // arrow.getBoundingClientRect().left = elem.getBoundingClientRect().left
+    // console.log(arrow.getBoundingClientRect())
+    // console.log(elem.getBoundingClientRect())
 }
 
 window.onkeypress = (e)=>{
-    if(e.key == 'a'){
-        block0.style.display = 'none'
-        block1.style.transition = 'all 1s ease-in-out'
+    if(e.key == key){
+        block0.style.opacity = 0
+        block0.style.zIndex = -1000
+        block1.style.zIndex = 1000
+        block1.style.opacity = 1
         block1.style.display = 'block'
         voiceAssistant('You Presed A on Keyboard')
     }
