@@ -10,6 +10,7 @@ let keyCode = 97
 let key = String.fromCharCode(keyCode)
 
 voiceAssistant = (msg) => {
+    message.innerText = `Now time to press ${String.fromCharCode(keyCode - 32)} in keyboard`
     message.style.display = 'block'
     let speech = new SpeechSynthesisUtterance()
     speech.rate = 0.7
@@ -22,7 +23,6 @@ voiceAssistant = (msg) => {
 
     setTimeout(()=>{
         message.style.display = 'none'
-        message.innerText = `Now time to press ${String.fromCharCode(keyCode - 32)} in keyboard`
     },5000)
 }
 
@@ -57,7 +57,9 @@ window.onkeypress = (e)=>{
         block1.style.zIndex = 1000
         block1.style.opacity = 1
         block1.style.display = 'block'
-        voiceAssistant('You Presed A on Keyboard')
+        keyCode += 1
+        key = String.fromCharCode(keyCode)
+        voiceAssistant(`You pressed ${String.fromCharCode(keyCode-33)} in keyboard`)
     }
 }
 
@@ -68,6 +70,4 @@ leftNav.addEventListener('click', ()=>{
 voiceAssis.addEventListener('click', (e)=>{
     e.preventDefault()
     voiceAssistant(message.innerText)
-    keyCode += 1
-    key = String.fromCharCode(keyCode)
 })
