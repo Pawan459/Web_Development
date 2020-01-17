@@ -5,8 +5,9 @@ const block1 = document.getElementById('block1')
 const message = document.getElementById('message')
 const keyboard = document.getElementById('keyboard')
 const arrow = document.getElementById('arrow')
-const key = 'a'
 let isNavOpen = false
+let keyCode = 97
+let key = String.fromCharCode(keyCode)
 
 voiceAssistant = (msg) => {
     message.style.display = 'block'
@@ -21,6 +22,7 @@ voiceAssistant = (msg) => {
 
     setTimeout(()=>{
         message.style.display = 'none'
+        message.innerText = `Now time to press ${String.fromCharCode(keyCode - 32)} in keyboard`
     },5000)
 }
 
@@ -43,10 +45,9 @@ CloseNav = () => {
 window.onload = ()=>{
     OpenNav()
     setTimeout(CloseNav, 2000);
-    // let elem = document.getElementById(key)
-    // arrow.getBoundingClientRect().left = elem.getBoundingClientRect().left
-    // console.log(arrow.getBoundingClientRect())
-    // console.log(elem.getBoundingClientRect())
+    let elem = document.getElementById(key)
+    console.log(arrow.offsetLeft)
+    console.log(elem.offsetLeft)
 }
 
 window.onkeypress = (e)=>{
@@ -67,4 +68,6 @@ leftNav.addEventListener('click', ()=>{
 voiceAssis.addEventListener('click', (e)=>{
     e.preventDefault()
     voiceAssistant(message.innerText)
+    keyCode += 1
+    key = String.fromCharCode(keyCode)
 })
