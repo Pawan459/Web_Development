@@ -42,12 +42,23 @@ CloseNav = () => {
     isNavOpen = false
 }
 
-window.onload = ()=>{
+updatePosition = (moveElement, referenceElementId) =>{
+    let elem = document.getElementById(referenceElementId)
+    elem = elem.getBoundingClientRect()
+    moveElement.style.left = (elem.left-25) + 'px'
+    moveElement.style.top = (elem.top-194) +'px'
+    moveElement.style.bottom = elem.bottom + 'px'
+    moveElement.style.right = elem.right + 'px'
+}
+
+window.onresize = (e)=>{
+    updatePosition(arrow, key)
+}
+
+window.onload = (e)=>{
     OpenNav()
     setTimeout(CloseNav, 2000);
-    let elem = document.getElementById(key)
-    console.log(arrow.offsetLeft)
-    console.log(elem.offsetLeft)
+    updatePosition(arrow, key)
 }
 
 window.onkeypress = (e)=>{
@@ -59,11 +70,20 @@ window.onkeypress = (e)=>{
         block1.style.display = 'block'
         keyCode += 1
         key = String.fromCharCode(keyCode)
+        updatePosition(arrow, key)
         voiceAssistant(`You pressed ${String.fromCharCode(keyCode-33)} in keyboard`)
     }
 }
 
-leftNav.addEventListener('click', ()=>{
+keyboard.addEventListener('mouseover',(e)=>{
+    updatePosition(arrow, key)
+})
+
+keyboard.addEventListener('mouseout',(e)=>{
+    updatePosition(arrow, key)
+})
+
+leftNav.addEventListener('click', (e)=>{
     OpenNav()
 })
 

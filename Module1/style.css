@@ -103,23 +103,22 @@ body{
   animation: bounce 1s infinite;
   color: #14B524;
   font-size: 10rem;
-  z-index: 1;
-}
-
-.arrow, .keyboard{
+  z-index: 1000000;
   position: absolute;
 }
+
 
  /* Keyboard CSS */
 .keyboard{
   width:800px; height: 320px;
   margin: 0px auto;
   color: #eee;
+  position: absolute;
   transition: all 0.8s ease-in-out;
 }
 
 .keyboard:hover{
-  left: -50px;
+  left: -125px;
   transition: all 0.8s ease-in-out;
 }
 
