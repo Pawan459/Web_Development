@@ -1,0 +1,28 @@
+{
+    "status": "success",
+    "status_code": 200,
+    "message": "Problem fetched successfully",
+    "data": {
+        "question": {
+            "upper_number": {
+                "value": 7,
+                "spelling": "seven",
+                "sound": "LINK_TO_AUDIO"
+            },
+            "lower_number": {
+                "value": 2,
+                "spelling": "two",
+                "sound": "LINK_TO_AUDIO"
+            },
+            "operator": {
+                "symbol": "-",
+                "spelling": "minus"
+            }
+        },
+        "answer": {
+            "value": 5,
+            "spelling": "five",
+            "sound": "LINK_TO_AUDIO"
+        }
+    }
+}

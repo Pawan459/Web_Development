@@ -1,0 +1,12 @@
+1. Sir, I want to export js files from this folder to others how can i do this
+    in JAVASCRIPT
+
+2. Sir when rendered it was not able to read the assigned variable properties
+    like 
+    voiceAssis.addEventListener() was not working
+    it was considering voiceAssis a null Object 
+    Why??
+
+3. Sir get method should be like this or not?
+
+4. Sir where to post the data when we dont have any domain to post the data
