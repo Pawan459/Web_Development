@@ -11,14 +11,16 @@ const nextPageBtn = document.getElementById('nextPage')
 const answerSpelling = document.getElementById('answerSpelling')
 const answerSideSpelling = document.getElementById('answerSideSpelling')
 
+let finalAnswer, correctAnswer;
+
 const side_Module_InputDigit1 = document.getElementById('answer0')
 const side_Module_InputDigit2 = document.getElementById('answer1')
 const side_Module_InputDigit3 = document.getElementById('answer2')
 
 let questionNumber = 0
-const url = `http://15.206.80.44/subtraction_without_borrow/${questionNumber}/get_data`
-const nextModule = 'http://127.0.0.1/next_module_name'
-const nextQuestion = 'http://127.0.0.1/subtraction_addition/get_data'
+const getURL = `http://15.206.80.44/subtraction_without_borrow/${questionNumber}/get_data`
+const postURL = `http://15.206.80.44/subtraction_addition/send_user_response`
+const nextModuleURL = 'http://127.0.0.1/next_module_name'
 let wrongAnswer=false
 let userData = {
         "status": "success",
@@ -195,6 +197,7 @@ const setSideModule = (questionDetails)=>{
 
 const updateSpelling = (event)=>{
     let number = differenceOfNumber.value
+    finalAnswer = number
     if(number<10)
         answerSpelling.value = convertToWords(number)
     else
@@ -206,6 +209,7 @@ const updateSideSpelling = (event) =>{
     let secondDigit = side_Module_InputDigit2.value
     let thirdDigit = side_Module_InputDigit3.value
     let number = parseInt(firstDigit+""+secondDigit+""+thirdDigit)
+    finalAnswer = number
     if(number<1000)
         answerSideSpelling.value =convertToWords(number)
     else
@@ -214,6 +218,7 @@ const updateSideSpelling = (event) =>{
 
 const updateUserData = (data)=>{
     let questionDetails = data['data']['question']
+    correctAnswer = data['data']['answer']['value']
     setAppleModule(questionDetails)
 }
 
@@ -267,19 +272,25 @@ const disableInputFields = () =>{
 }
 
 const renderInit = () =>{
-    getMethod(url)
+    getMethod(getURL)
     addClass(oneNumberBelow, 'oneNumberBelow-appear')
     disableInputFields()
 }
 
 const validateAnswer = (event) => {
-    let difference = differenceOfNumber.value
-    if (difference > 9) {
-        WRONG_ANSWER = true
-        userData.data.message = `You answered Wrongly`
-        userData.data.url = NEXT_QUESTION
-        // POST Method  
+    if (finalAnswer != correctAnswer){
+        questionNumber += 1
+        wrongAnswer = true
+        userData.data.message ='NEXT_QUESTION'
+        userData.data.url = getURL
     }
+    else{
+        wrongAnswer = false
+        userData.data.message = 'NEXT_MODULE'
+        userData.data.url = nextModuleURL
+    }
+    postMethod(postURL, userData)
+    // need to see post data file
 }
 
 const loadWindow = (event) =>{
