@@ -1,4 +1,4 @@
-(function() {
+const mainIndex = (function() {
 
     // Varialbe Declaration
     const leftNav_HTML = `
@@ -324,14 +324,12 @@
     const leftNav = document.getElementById('leftNav')
     const rightNav = document.getElementById('rightNav')
     const mainContent = document.getElementById('mainContent')
-    const voiceAssis = document.getElementById('voiceAssis')
-    const brandLogo = document.getElementById('brandLogo')
     let isNavOpen = false
 
 
     // Functions here
 
-    renderInit = () =>{
+    renderInitMain = () =>{
         rightNav.innerHTML = rightNav_HTML
         leftNav.innerHTML = leftNav_HTML
     }
@@ -370,8 +368,8 @@
             openNav()
     }
 
-    loadWindow = (event) =>{
-        renderInit()
+    loadMainWindow = (event) =>{
+        renderInitMain()
         openNav()
         // Automatically close the left navbar after 2sec
         generateDelay(closeNav, 2000)
@@ -380,10 +378,6 @@
     
     // Event bindings
 
-    window.addEventListener('load', loadWindow)
-
-    brandLogo.addEventListener('click',performNavOperation)
-
-    voiceAssis.addEventListener('click', console.log('hi'))
+    window.addEventListener('load', loadMainWindow)
     
 })()

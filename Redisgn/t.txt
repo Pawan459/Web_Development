@@ -1,0 +1,24 @@
+1. CSRF token
+2. JS
+3. HTML 
+4. CSS 
+5. Webpack
+6. Testing
+7. Babel 
+8. Typescript 
+9. Angular 
+10. React 
+11. Interceptor 
+12. JWT Token 
+13. display flex 
+14. display grid 
+15 PWa 
+Service Worker 
+Socket Io 
+Push notification
+
+1. quick sort 
+2. dynamic problem 
+3. linke list 
+4. greedy algo 
+

@@ -6,12 +6,20 @@ const mainContent = document.getElementById('mainContent')
 const sideBySide = document.getElementById('sideBySide')
 const oneNumberBelow = document.getElementById('oneNumberBelow')
 const differenceOfNumber =  document.getElementById('answer')
-const answerSpelling = document.getElementById('answerSpelling')
 const nextPageBtn = document.getElementById('nextPage')
-const url = `./shared/getData.json`
-const NEXT_MODULE = 'http://127.0.0.1/next_module_name'
-const NEXT_QUESTION = 'http://127.0.0.1/subtraction_addition/get_data'
-let WRONG_ANSWER=false
+
+const answerSpelling = document.getElementById('answerSpelling')
+const answerSideSpelling = document.getElementById('answerSideSpelling')
+
+const side_Module_InputDigit1 = document.getElementById('answer0')
+const side_Module_InputDigit2 = document.getElementById('answer1')
+const side_Module_InputDigit3 = document.getElementById('answer2')
+
+let questionNumber = 0
+const url = `http://15.206.80.44/subtraction_without_borrow/${questionNumber}/get_data`
+const nextModule = 'http://127.0.0.1/next_module_name'
+const nextQuestion = 'http://127.0.0.1/subtraction_addition/get_data'
+let wrongAnswer=false
 let userData = {
         "status": "success",
         "status_code": 200,
@@ -22,14 +30,28 @@ let userData = {
             }
     }
 
-
+const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
 
 
 // Function Declarations
 
-const toWords = (number) =>{
-    const wordArray = ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine']
-    return wordArray[number]
+const convertHundreds = (num) => {
+    if (num > 1000) return 'Only Three Digit'
+    if (num > 99) return ones[Math.floor(num / 100)] + " hundred " + convertTens(num % 100)
+    else return convertTens(num)
+}
+
+const convertTens = (num) => {
+    if (num < 10) return ones[num]
+    else if (num >= 10 && num < 20) return teens[num - 10]
+    else return tens[Math.floor(num / 10)] + " " + ones[num % 10]
+}
+
+const convertToWords = (num) => {
+    if (num == 0) return "zero"
+    else return convertHundreds(num)
 }
 
 const getRandomInt = (min, max) => {
@@ -41,6 +63,14 @@ const getRandomColor = ()=>{
     const green = getRandomInt(0, 255);
     const blue = getRandomInt(0, 255);
     return `rgb(${red},${green},${blue})`
+}
+
+const getDigits = (num) =>{
+    let digit = []
+    num = num.toString()
+    for(let i = 0;i<num.length;i++)
+        digit.push(parseInt(num.charAt(i)+""))
+    return digit
 }
 
 const makeElement = (type, elementId, elementClass)=>{
@@ -75,14 +105,14 @@ const setAppleModule = (questionDetails)=>{
 
     // Setting the first Number
     let numberLabelSpelling = makeElement('label', 'spelling1', 'value')
-    numberLabelSpelling.innerHTML = `(${toWords(7)})`
+    numberLabelSpelling.innerHTML = `(${convertToWords(firstNumber)})`
     eleFirstNumber.appendChild(numberLabelSpelling)
 
     let numberLabel = makeElement('label', 'value1', 'value')
-    numberLabel.innerHTML = `7`
+    numberLabel.innerHTML = `${firstNumber}`
     eleFirstNumber.appendChild(numberLabel)
     
-    let appleArray = makeApple(7)
+    let appleArray = makeApple(firstNumber)
     appleArray.forEach(apple => {
         eleFirstNumber.appendChild(apple)
     });
@@ -91,17 +121,17 @@ const setAppleModule = (questionDetails)=>{
 
     // Setting the second number
     numberLabelSpelling = makeElement('label', 'spelling2', 'value')
-    numberLabelSpelling.innerHTML = `(${toWords(4)})`
+    numberLabelSpelling.innerHTML = `(${convertToWords(secondNumber)})`
     eleSecondNumber.appendChild(numberLabelSpelling)
 
     numberLabel = makeElement('label', 'value2', 'value')
-    numberLabel.innerHTML = `4`
+    numberLabel.innerHTML = `${secondNumber}`
     eleSecondNumber.appendChild(numberLabel)
 
     const sign = makeElement('h1','minus','minus')
     eleSecondNumber.appendChild(sign)
 
-    appleArray = makeApple(4)
+    appleArray = makeApple(secondNumber)
     appleArray.forEach(apple => {
         eleSecondNumber.appendChild(apple)
     });
@@ -109,15 +139,77 @@ const setAppleModule = (questionDetails)=>{
 }
 
 const setSideModule = (questionDetails)=>{
-    
+    let firstNumber = questionDetails['larger_number']['value']
+    let secondNumber = questionDetails['smaller_number']['value']
+
+    // Inserting elements dynamically in the dom
+
+    const eleFirstNumber = makeElement('div', 'firstNumberSide', 'sideNumber')
+    const eleSecondNumber = makeElement('div', 'secondNumberSide', 'sideNumber')
+
+    sideBySide.insertBefore(eleSecondNumber, sideBySide.firstChild)
+    // Inserting Operator
+    let operator = makeElement('h1', 'minus', 'minus')
+    sideBySide.insertBefore(operator, sideBySide.firstChild)
+    sideBySide.insertBefore(eleFirstNumber, sideBySide.firstChild)
+
+
+    // Setting the first Number
+    let firstDigit = makeElement('div','firstDigit','firstDigit')
+    let secondDigit = makeElement('div','secondDigit','secondDigit')
+    let thirdDigit = makeElement('div','thirdDigit','thirdDigit')
+
+    let digits = getDigits(firstNumber)
+    firstDigit.innerHTML = digits[0]
+    secondDigit.innerHTML = digits[1]
+    thirdDigit.innerHTML = digits[2]
+
+    eleFirstNumber.appendChild(firstDigit)
+    eleFirstNumber.appendChild(secondDigit)
+    eleFirstNumber.appendChild(thirdDigit)
+
+    let answerSpelling = makeElement('input','answerSideSpellingFirst','answerSideSpelling')
+    answerSpelling.value = convertToWords(firstNumber)
+    eleFirstNumber.appendChild(answerSpelling)
+
+
+    // Second Number Setup
+    firstDigit = makeElement('div', 'firstDigit', 'firstDigit')
+    secondDigit = makeElement('div', 'secondDigit', 'secondDigit')
+    thirdDigit = makeElement('div', 'thirdDigit', 'thirdDigit')
+
+    digits = getDigits(secondNumber)
+    firstDigit.innerHTML = digits[0]
+    secondDigit.innerHTML = digits[1]
+    thirdDigit.innerHTML = digits[2]
+
+    eleSecondNumber.appendChild(firstDigit)
+    eleSecondNumber.appendChild(secondDigit)
+    eleSecondNumber.appendChild(thirdDigit)
+
+    answerSpelling = makeElement('input', 'answerSideSpellingSecond', 'answerSideSpelling')
+    answerSpelling.value = convertToWords(secondNumber)
+    eleSecondNumber.appendChild(answerSpelling)
+
 }
 
 const updateSpelling = (event)=>{
     let number = differenceOfNumber.value
     if(number<10)
-        answerSpelling.value = toWords(number)
+        answerSpelling.value = convertToWords(number)
     else
         answerSpelling.value = `One Digit`
+}
+
+const updateSideSpelling = (event) =>{
+    let firstDigit = side_Module_InputDigit1.value
+    let secondDigit = side_Module_InputDigit2.value
+    let thirdDigit = side_Module_InputDigit3.value
+    let number = parseInt(firstDigit+""+secondDigit+""+thirdDigit)
+    if(number<1000)
+        answerSideSpelling.value =convertToWords(number)
+    else
+        answerSideSpelling.value = `Three Digit Only`
 }
 
 const updateUserData = (data)=>{
@@ -126,8 +218,9 @@ const updateUserData = (data)=>{
 }
 
 const getMethod = (url) =>{
-    fetch(url,{
+    fetch('./shared/getData.json',{
         method: 'GET',
+        mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -145,11 +238,38 @@ const postMethod = (url, userData) =>{
     }).then(res => JSON.stringify(userData)).then(data => console.log(data))
 }
 
+const addClass = (element, className) =>{
+    element.classList.add(className)
+}
+
+const removeClass = (element, className) => {
+    element.classList.remove(className)
+}
+
+const disableInputFields = () =>{
+    try {
+        answerSpelling.disabled = true
+        updateSpelling(this)
+    } catch (error) {
+        console.log(error)
+    }
+
+    try {
+        answerSideSpelling.disabled = true
+        answerSideSpellingFirst.disabled = true
+        answerSideSpellingSecond.disabled = true
+        updateSideSpelling(this)
+    } catch (error) {
+        console.log(error)
+    }   
+    
+    
+}
+
 const renderInit = () =>{
     getMethod(url)
-    answerSpelling.value = toWords(0)
-    answerSpelling.disabled = true
-    oneNumberBelow.classList.add('oneNumberBelow-appear')
+    addClass(oneNumberBelow, 'oneNumberBelow-appear')
+    disableInputFields()
 }
 
 const validateAnswer = (event) => {
@@ -165,9 +285,17 @@ const validateAnswer = (event) => {
 const loadWindow = (event) =>{
     renderInit()
 }
+
+
 // Event Bindings
 
 differenceOfNumber.addEventListener('input',updateSpelling)
+
+side_Module_InputDigit1.addEventListener('input', updateSideSpelling)
+
+side_Module_InputDigit2.addEventListener('input',updateSideSpelling)
+
+side_Module_InputDigit3.addEventListener('input',updateSideSpelling)
 
 window.addEventListener('load', loadWindow)
 

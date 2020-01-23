@@ -219,8 +219,8 @@ body{
 }
 
 .subtract .apple{
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   align-self: flex-start;
   border-radius: 50%;
   margin-left: 5px;
@@ -231,6 +231,7 @@ body{
   border-bottom: #333 5px solid;
   margin-left: 10px;
   align-self: baseline;
+  flex-wrap: wrap;
 }
 
 .bigBlank{
@@ -238,6 +239,13 @@ body{
   border-bottom: #333 5px solid;
   align-self: flex-end;
   margin-left: 550px;
+}
+
+.bigBlank-expand{
+  width: 250px;
+  border-bottom: #333 5px solid;
+  align-self: flex-end;
+  margin-left: 50px;
 }
 
 .answerDetails{
@@ -260,7 +268,16 @@ body{
   height: 70px;
   font-size: 2rem;
   border: #333 1px solid;
-  margin-right: 40px;
+  margin-left: 40px;
+  text-align: center;
+}
+
+.answerSideDetails{
+  width: 70px;
+  height: 70px;
+  font-size: 2rem;
+  border: #333 1px solid;
+  margin-left: 40px;
   text-align: center;
 }
 
@@ -301,7 +318,33 @@ body{
 .side-by-side-appear{
   display: flex;
   flex-direction: column;
+  margin-left: 20px;
   display: block;
+}
+
+.sideNumber{
+  display: flex;
+  margin-top: 30px;
+}
+
+.firstDigit, .secondDigit, .thirdDigit{
+  width: 50px;
+  height: 50px;
+  align-self: flex-start;
+  margin-left: 60px;
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.answerSideSpelling{
+  width: 480px;
+  height: 70px;
+  font-size: 1.6rem;
+  border: none;
+  background-color: #ddd;
+  text-align: center;
+  margin-left: 20px;
 }
 
 
