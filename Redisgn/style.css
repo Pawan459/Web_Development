@@ -254,6 +254,15 @@ body{
   padding-bottom: 80px;
 }
 
+.answerSideDetails{
+  width: 70px;
+  height: 70px;
+  font-size: 2rem;
+  display: flex;
+  text-align: center;
+  padding-bottom: 100px;
+}
+
 .answer{
   width: 70px;
   height: 70px;
@@ -272,15 +281,6 @@ body{
   text-align: center;
 }
 
-.answerSideDetails{
-  width: 70px;
-  height: 70px;
-  font-size: 2rem;
-  border: #333 1px solid;
-  margin-left: 40px;
-  text-align: center;
-}
-
 .answerSpelling{
   width: 180px;
   height: 70px;
@@ -289,6 +289,16 @@ body{
   background-color: #ddd;
   text-align: center;
   margin-right: 20px;
+}
+
+.answerSideSpelling{
+  width: 480px;
+  height: 70px;
+  font-size: 1.6rem;
+  border: none;
+  background-color: #ddd;
+  text-align: center;
+  margin-left: 20px;
 }
 
 .value{
@@ -335,16 +345,6 @@ body{
   font-size: 2rem;
   text-align: center;
   font-weight: 700;
-}
-
-.answerSideSpelling{
-  width: 480px;
-  height: 70px;
-  font-size: 1.6rem;
-  border: none;
-  background-color: #ddd;
-  text-align: center;
-  margin-left: 20px;
 }
 
 

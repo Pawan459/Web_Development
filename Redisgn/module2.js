@@ -11,26 +11,28 @@ const nextPageBtn = document.getElementById('nextPage')
 const answerSpelling = document.getElementById('answerSpelling')
 const answerSideSpelling = document.getElementById('answerSideSpelling')
 
-let finalAnswer, correctAnswer;
+let finalAnswer, correctAnswer
 
 const side_Module_InputDigit1 = document.getElementById('answer0')
 const side_Module_InputDigit2 = document.getElementById('answer1')
 const side_Module_InputDigit3 = document.getElementById('answer2')
 
-let questionNumber = 0
-const getURL = `http://15.206.80.44/subtraction_without_borrow/${questionNumber}/get_data`
-const postURL = `http://15.206.80.44/subtraction_addition/send_user_response`
-const nextModuleURL = 'http://127.0.0.1/next_module_name'
-let wrongAnswer=false
+let questionNumber = -1
+let getURL = null
+let wrongAnswer = false
 let userData = {
-        "status": "success",
-        "status_code": 200,
-        "message": "User response recorded",
-        "data":  {
-            "message": null,
-            "url": null
-            }
+    "status": "success",
+    "status_code": 200,
+    "message": "User response recorded",
+    "data": {
+        "message": null,
+        "url": null
     }
+}
+const rightAnswerMessage = `You answered it correctly loading the next module`
+const wrongAsnswerMessage = `You answered it wrong please try again`
+const localUrl = './shared/getData.json'
+const postURL = `http://15.206.80.44/subtraction_addition/send_user_response`
 
 const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
 const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
@@ -38,6 +40,17 @@ const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'si
 
 
 // Function Declarations
+
+const voiceAssistant = (voiceMessage) => {
+    let speech = new SpeechSynthesisUtterance()
+    speech.text = voiceMessage
+
+    speechSynthesis.speak(speech)
+}
+
+const generateDelay = (function_name, delayTime) => {
+    setTimeout(function_name, delayTime)
+}
 
 const convertHundreds = (num) => {
     if (num > 1000) return 'Only Three Digit'
@@ -73,6 +86,19 @@ const getDigits = (num) =>{
     for(let i = 0;i<num.length;i++)
         digit.push(parseInt(num.charAt(i)+""))
     return digit
+}
+
+const addClass = (element, className) => {
+    element.classList.add(className)
+}
+
+const removeClass = (element, className) => {
+    element.classList.remove(className)
+}
+
+const makeURL = () =>{
+    if(questionNumber < 0) return localUrl
+    return `http://15.206.80.44/subtraction_without_borrow/${questionNumber}/get_data`
 }
 
 const makeElement = (type, elementId, elementClass)=>{
@@ -162,13 +188,18 @@ const setSideModule = (questionDetails)=>{
     let thirdDigit = makeElement('div','thirdDigit','thirdDigit')
 
     let digits = getDigits(firstNumber)
-    firstDigit.innerHTML = digits[0]
-    secondDigit.innerHTML = digits[1]
-    thirdDigit.innerHTML = digits[2]
-
-    eleFirstNumber.appendChild(firstDigit)
-    eleFirstNumber.appendChild(secondDigit)
-    eleFirstNumber.appendChild(thirdDigit)
+    if(digits[0] != undefined){
+        firstDigit.innerHTML = digits[0]
+        eleFirstNumber.appendChild(firstDigit)
+    }
+    if (digits[1] != undefined) {
+        secondDigit.innerHTML = digits[1]
+        eleFirstNumber.appendChild(secondDigit)
+    }
+    if (digits[2] != undefined) {
+        thirdDigit.innerHTML = digits[2]
+        eleFirstNumber.appendChild(thirdDigit)
+    }
 
     let answerSpelling = makeElement('input','answerSideSpellingFirst','answerSideSpelling')
     answerSpelling.value = convertToWords(firstNumber)
@@ -181,13 +212,19 @@ const setSideModule = (questionDetails)=>{
     thirdDigit = makeElement('div', 'thirdDigit', 'thirdDigit')
 
     digits = getDigits(secondNumber)
-    firstDigit.innerHTML = digits[0]
-    secondDigit.innerHTML = digits[1]
-    thirdDigit.innerHTML = digits[2]
 
-    eleSecondNumber.appendChild(firstDigit)
-    eleSecondNumber.appendChild(secondDigit)
-    eleSecondNumber.appendChild(thirdDigit)
+    if (digits[0] != undefined) {
+        firstDigit.innerHTML = digits[0]
+        eleSecondNumber.appendChild(firstDigit)
+    }
+    if (digits[1] != undefined) {
+        secondDigit.innerHTML = digits[1]
+        eleSecondNumber.appendChild(secondDigit)
+    }
+    if (digits[2] != undefined) {
+        thirdDigit.innerHTML = digits[2]
+        eleSecondNumber.appendChild(thirdDigit)
+    }
 
     answerSpelling = makeElement('input', 'answerSideSpellingSecond', 'answerSideSpelling')
     answerSpelling.value = convertToWords(secondNumber)
@@ -219,36 +256,43 @@ const updateSideSpelling = (event) =>{
 const updateUserData = (data)=>{
     let questionDetails = data['data']['question']
     correctAnswer = data['data']['answer']['value']
-    setAppleModule(questionDetails)
+    if(questionNumber == -1){
+        setAppleModule(questionDetails)
+    }else{
+        setSideModule(questionDetails)
+    }
+}
+
+const clearModule = (moduleName) =>{
+    while(moduleName.childElementCount != 1){
+        let child = moduleName.firstChild
+        moduleName.removeChild(child)
+    }
+    // You can also use moduleName.innerHTML = "" that would be more efficient
+    // But here i have to maintain the last child that's why kept it
 }
 
 const getMethod = (url) =>{
-    fetch('./shared/getData.json',{
-        method: 'GET',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
+    fetch(url)
         .then(res => res.json())
         .then(data => updateUserData(data))
+        .catch(err => console.log('we got a error in Get Method', err))
 }
 
 const postMethod = (url, userData) =>{
+    console.log(userData)
     fetch(url,{
         method:'POST',
-        headers: 'Content-type',
+        headers: {
+            'Content-type' : 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'UKreajCWVVzA8vJ9ZB6oyFSvlqkINTHvD2vGeNxBcaG9UtJDxYnftOOc1yVt'
+        },
         body: JSON.stringify(userData)
-    }).then(res => JSON.stringify(userData)).then(data => console.log(data))
-}
-
-const addClass = (element, className) =>{
-    element.classList.add(className)
-}
-
-const removeClass = (element, className) => {
-    element.classList.remove(className)
+    })
+    .then(res => JSON.stringify(userData))
+    .then(data => console.log(data))
+    .catch(err => console.log('we encountered a error in POST Method', err))
 }
 
 const disableInputFields = () =>{
@@ -272,25 +316,57 @@ const disableInputFields = () =>{
 }
 
 const renderInit = () =>{
-    getMethod(getURL)
+    getMethod(localUrl)
     addClass(oneNumberBelow, 'oneNumberBelow-appear')
+    // addClass(sideBySide, 'side-by-side-appear')
+    // setSideModule({
+    //     "larger_number":{
+    //         "value": 723
+    //     },
+    //     "smaller_number":{
+    //         "value" : 123
+    //     }
+    // })
     disableInputFields()
 }
 
+// validate answer need to be updated after loading index.js file
+// need to use async-await 
+// await to show animation of Subtraction
 const validateAnswer = (event) => {
+    if(questionNumber<0) {
+        // For local URL
+        if(finalAnswer == correctAnswer){
+            voiceAssistant(rightAnswerMessage)
+            questionNumber += 1
+            getURL = makeURL()
+            // Clearing the module so as to set the Side Number Module
+            clearModule(oneNumberBelow)
+            generateDelay(getMethod(getURL),2000)
+            removeClass(oneNumberBelow, 'oneNumberBelow-appear')
+            addClass(sideBySide, 'side-by-side-appear')
+            return
+        }
+        voiceAssistant(wrongAsnswerMessage)
+        return
+    }
     if (finalAnswer != correctAnswer){
-        questionNumber += 1
         wrongAnswer = true
-        userData.data.message ='NEXT_QUESTION'
+        userData.data.message ='WRONG_ANSWER'
         userData.data.url = getURL
+        voiceAssistant(wrongAsnswerMessage)
     }
     else{
+        questionNumber += 1
         wrongAnswer = false
-        userData.data.message = 'NEXT_MODULE'
-        userData.data.url = nextModuleURL
+        userData.data.message = 'NEXT_QUESTION'
+        userData.data.url = getURL
+        voiceAssistant(rightAnswerMessage)
+        clearModule(sideBySide)
+        getURL = makeURL()
+        getMethod(getURL)
     }
     postMethod(postURL, userData)
-    // need to see post data file
 }
 
 const loadWindow = (event) =>{
