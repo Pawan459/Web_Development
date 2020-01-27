@@ -1,0 +1,25 @@
+.row{
+    padding-bottom: 20px;
+}
+
+.box{
+    width: max-content;
+    height: 40px;
+    background-color: rgb(224, 228, 226);
+    border: 1px solid black;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 200;
+    margin-left: 10px;
+}
+
+.blanks{
+    margin-left: 10px;
+    min-width: 50px;
+    width: max-content;
+    border-bottom: 2px solid black;
+}
+
+.next-stage-btn{
+    margin-top: 20px;
+}

@@ -98,7 +98,7 @@ const removeClass = (element, className) => {
 
 const makeURL = () =>{
     if(questionNumber < 0) return localUrl
-    return `http://15.206.80.44/subtraction_without_borrow/${questionNumber}/get_data`
+    return `http://15.206.80.44/api/v2/maths/3/1/get_data`
 }
 
 const makeElement = (type, elementId, elementClass)=>{
@@ -273,7 +273,13 @@ const clearModule = (moduleName) =>{
 }
 
 const getMethod = (url) =>{
-    fetch(url)
+    fetch(url,{
+        method: 'GET',
+        Headers: {
+            'Accept': 'application/json',
+            'Authorization': 'UKreajCWVVzA8vJ9ZB6oyFSvlqkINTHvD2vGeNxBcaG9UtJDxYnftOOc1yVt'
+        }
+    })
         .then(res => res.json())
         .then(data => updateUserData(data))
         .catch(err => console.log('we got a error in Get Method', err))
@@ -287,8 +293,8 @@ const postMethod = (url, userData) =>{
             'Content-type' : 'application/json',
             'Accept': 'application/json',
             'Authorization': 'UKreajCWVVzA8vJ9ZB6oyFSvlqkINTHvD2vGeNxBcaG9UtJDxYnftOOc1yVt'
-        },
-        body: JSON.stringify(userData)
+        }
+        // body: JSON.stringify(userData)
     })
     .then(res => JSON.stringify(userData))
     .then(data => console.log(data))
