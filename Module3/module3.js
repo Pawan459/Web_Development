@@ -34,8 +34,8 @@ const eleNextStageButton = document.getElementById('nextStageButton')
 const domainName = `15.206.80.44`
 const getURL = `http://${domainName}/api/v2/english/5/1/get_data`
 const postURL = `http://${domainName}/api/v2/english/5/1/post_user_response`
-let shuffled = null, userAnswer = null, correctAnswer = null, questionID = null, startTime = null, endTime = null
-let boxes =[], blanks = []
+let shuffled = null, userAnswer = [], correctAnswer = null, questionID = null, startTime = null, endTime = null
+let boxes =[], blanks = [], isInAir = false, dynamic_div_offset = [0, 0]
 const userData = {
     "status": "success",
     "status_code": 200,
@@ -54,12 +54,18 @@ const userData = {
 
 
 // Function Declrations
-
+const voiceAssistant = (voiceMessage) =>{
+    let assistant = new SpeechSynthesisUtterance()
+    assistant.text = voiceMessage
+    speechSynthesis.speak(assistant)
+}
 const allowDrop = (event) => {
     event.preventDefault();
 }
 
 const drag = (event)=> {
+    let voiceText  = event.toElement.innerText
+    voiceAssistant(voiceText)
     event.dataTransfer.setData("text", event.target.id);
 }
 
@@ -90,6 +96,8 @@ const setModule = (shuffledData) =>{
         const childElement = makeElement('label', `boxlabel${index}`, 'boxLabel', "", shuffledData[index])
         childElement.draggable = true
         childElement.addEventListener('dragstart',drag)
+        parentElement.addEventListener('dragover',allowDrop)
+        parentElement.addEventListener('drop',triggerDrop)
         parentElement.append(childElement)
         eleBox.append(parentElement)
         boxes.push(childElement)
@@ -100,12 +108,10 @@ const setModule = (shuffledData) =>{
         const box = boxes[index]
         const blank = makeElement('div',`blank${index}`,'col-auto blanks',"","");
         blank.addEventListener('drop',triggerDrop)
-        blank.addEventListener('dropover',allowDrop)
+        blank.addEventListener('dragover',allowDrop)
         eleBlank.append(blank)
         blanks.push(blank)
     }
-
-    console.log(blanks, boxes)
     
 }
 
@@ -124,8 +130,10 @@ const updateUserData = (dataObject) =>{
     setModule(shuffled)
 }
 
-const setUserData = (event)=>{
-
+const setUserData = (submitTime, status)=>{
+    endTime = submitTime
+    userData.status = status
+    postMethod(postURL, userData)
 }
 
 const getMethod = (url) => {
@@ -153,14 +161,33 @@ const postMethod = (url, userData) => {
             'Accept': 'application/json',
             'Authorization': 'UKreajCWVVzA8vJ9ZB6oyFSvlqkINTHvD2vGeNxBcaG9UtJDxYnftOOc1yVt'
         },
-        data: { start_time: startTime, end_time: endTime, user_response: userAnswer, question_id: question_id },
+        data: { start_time: startTime, end_time: endTime, user_response: userAnswer, question_id: questionID },
     })
-        .then(res => JSON.stringify(userData))
+        .then(res => JSON.stringify(res))
         .then(data => console.log(data))
         .catch(err => console.log('we encountered a error in POST Method', err))
 }
 
-const validateUserData = (event)=>{
+const validateAnswer = (event)=>{
+    // Making the array empty
+    userAnswer.splice(0, userAnswer.length)
+
+    // Initializing the array with the user Answer
+    let combinedAnswer = ""
+    blanks.map(blank => {
+        userAnswer.push(blank.innerText)
+        combinedAnswer += blank.innerText+" "
+    })
+
+    // Speaking the user Answer
+    voiceAssistant(`You filled the answer as ${combinedAnswer}`)
+
+    if (userAnswer.values == correctAnswer.values){
+        setUserData(new Date(), 0)
+    }
+    else{
+        setUserData(new Date(), 2)
+    }
 
 }
 

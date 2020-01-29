@@ -15,9 +15,34 @@
 
 .blanks{
     margin-left: 10px;
+    min-height: 30px;
     min-width: 50px;
     width: max-content;
+    height: max-content;
     border-bottom: 2px solid black;
+    font-size: 1.5rem;
+    font-weight: 200;
+    transition: 0.2s all ease-in;
+}
+
+.blanks:hover{
+    font-size: 1.6rem;
+    animation: expand 1s infinite;
+}
+
+@keyframes expand{
+    0%, 20%, 100% {
+        min-width: 50px;
+        border-bottom: 2px solid black;
+    } 
+   40%,50%{
+       min-width: 60px;
+       border-bottom: 2px solid aqua;
+    } 
+   60%,80% {
+       min-width: 60px;
+       border-bottom: 2px solid brown;
+   } 
 }
 
 .next-stage-btn{
