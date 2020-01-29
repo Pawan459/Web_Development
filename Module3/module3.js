@@ -161,7 +161,13 @@ const postMethod = (url, userData) => {
             'Accept': 'application/json',
             'Authorization': 'UKreajCWVVzA8vJ9ZB6oyFSvlqkINTHvD2vGeNxBcaG9UtJDxYnftOOc1yVt'
         },
-        data: { start_time: startTime, end_time: endTime, user_response: userAnswer, question_id: questionID },
+        data: {
+            start_time: startTime, 
+            end_time: endTime, 
+            user_response: userAnswer, 
+            question_id: questionID, 
+            user_data: userData
+        },
     })
         .then(res => JSON.stringify(res))
         .then(data => console.log(data))
