@@ -25,6 +25,21 @@
     transition: 0.2s all ease-in;
 }
 
+.wrongAnswer{
+    font-size: 1.5rem;
+    font-weight: 200;
+    animation: wobbleText 0.5s infinite;
+}
+
+@keyframes wobbleText{
+    from{
+    }
+    to{
+        font-size: 1.6rem;
+        color: lightcoral;
+    }
+}
+
 .blanks:hover{
     font-size: 1.6rem;
     animation: expand 1s infinite;
@@ -47,4 +62,24 @@
 
 .next-stage-btn{
     margin-top: 20px;
+    transition: all 0.9s ease-in;
+}
+
+.next-stage-btn-wobbel{
+    transition: all 0.9s ease-in;
+    animation: wobble 1s infinite;
+}
+
+@keyframes wobble{
+    0%, 20%, 100%{
+        width: 12%;
+    }
+    40%,50%{
+        width: 20%;
+        background-color: lightgreen;
+    }
+    60%,80% {
+       width: 15%;
+       background-color: lightsalmon;
+   } 
 }

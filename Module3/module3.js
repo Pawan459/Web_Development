@@ -75,6 +75,24 @@ const triggerDrop = (event) => {
     event.target.appendChild(document.getElementById(data));
 }
 
+const showErrorToUser = ()=>{
+    for(let i = 0;i<userAnswer.length;i++){
+        if(userAnswer[i] != correctAnswer[i]){
+            let blank = blanks[i]
+            blank.classList.add('wrongAnswer')
+        }
+    }
+}
+
+const checkAnswer = () =>{
+    for(let i = 0;i<userAnswer.length;i++){
+        if(userAnswer[i] != correctAnswer[i]){
+            return false
+        }
+    }
+    return true
+}
+
 const makeElement = (type, elementID, elementClass, value = "", text = "", width = null)=>{
     let element = document.createElement(type)
     element.id = elementID
@@ -181,6 +199,7 @@ const validateAnswer = (event)=>{
     // Initializing the array with the user Answer
     let combinedAnswer = ""
     blanks.map(blank => {
+        blank.classList.remove('wrongAnswer')
         userAnswer.push(blank.innerText)
         combinedAnswer += blank.innerText+" "
     })
@@ -188,11 +207,13 @@ const validateAnswer = (event)=>{
     // Speaking the user Answer
     voiceAssistant(`You filled the answer as ${combinedAnswer}`)
 
-    if (userAnswer.values == correctAnswer.values){
+    if(checkAnswer()){
+        eleNextStageButton.classList.remove('next-stage-btn-wobbel')
         setUserData(new Date(), 0)
     }
     else{
-        setUserData(new Date(), 2)
+        eleNextStageButton.classList.add('next-stage-btn-wobbel')
+        showErrorToUser()
     }
 
 }
