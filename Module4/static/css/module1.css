@@ -1,0 +1,158 @@
+.nav-link {
+  margin-bottom: 64px;
+}
+.module1-container {
+  margin-top: 32px;
+  border: 1px solid;
+}
+.jumbotron {
+  padding: 32px;
+  margin-top: 16px;
+  height: 400px;
+}
+.img-row {
+  height: 250px;
+  margin-top: 16px;
+}
+.next-stage-btn {
+  margin-top: 16px;
+}
+.letter,
+.letter-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.letter__text,
+.ltr-text-low {
+  position: relative;
+  font-size: 100px;
+  font-weight: bold;
+  color: blue;
+}
+.rgt {
+  -webkit-animation: rig 0.5s;
+  animation: rig 0.5s;
+  color: green;
+}
+.wrg {
+  -webkit-animation: wong 1s;
+  animation: wong 1s;
+  color: red;
+}
+@keyframes rig {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(2);
+  }
+}
+
+@keyframes wong {
+  0% {
+    left: 0px;
+    top: 0px;
+  }
+  20% {
+    left: 20px;
+    top: 0px;
+  }
+  40% {
+    left: -20px;
+    top: 0px;
+  }
+  60% {
+    left: 20px;
+    top: 0px;
+  }
+  80% {
+    left: -20px;
+    top: 0px;
+  }
+  100% {
+    left: 0px;
+    top: 0px;
+  }
+}
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.hide {
+  display: none;
+}
+.success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+.success-txt {
+  text-align: center;
+  font-weight: 500;
+  color: darkblue;
+}
+.star .fa-star {
+  color: #fbde4c;
+}
+
+/* Tooltip */
+.newtooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.newtooltip .tooltiptext {
+  visibility: hidden;
+  width: 150px;
+  height: 50px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  box-shadow: 5px 10px 8px #888888;
+
+  /* Position the tooltip */
+  position: absolute;
+  bottom: 50px;
+  left: -50px;
+  z-index: 1;
+}
+
+.newtooltip:hover .tooltiptext {
+  visibility: visible;
+}
+.newtooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+.avatar-row {
+  height: 70%;
+}
+.audio-btn {
+  border-radius: 50%;
+  border: 2px solid;
+  position: absolute;
+  bottom: 0px;
+  left: 36px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background: lightcoral;
+}
+.vol-btn__icon {
+  font-size: 16px;
+  color: white;
+}
