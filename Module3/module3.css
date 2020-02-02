@@ -25,6 +25,15 @@
     transition: 0.2s all ease-in;
 }
 
+.blanks-border{
+    min-height: 50px;
+    min-width: 70px;
+    width: max-content;
+    height: max-content;
+    border: 2px solid black;
+    animation: expand 1s infinite;
+}
+
 .wrongAnswer{
     font-size: 1.5rem;
     font-weight: 200;
@@ -32,31 +41,31 @@
 }
 
 @keyframes wobbleText{
-    from{
-    }
-    to{
-        font-size: 1.6rem;
-        color: lightcoral;
-    }
+     0% { transform: translateX(0%); } 
+   15% { transform: translateX(-1%) rotate(-5deg); } 
+   30% { transform: translateX(1%) rotate(3deg); } 
+   45% { 
+        transform: translateX(-1%) rotate(-3deg);
+        color : lightcoral;
+    } 
+   60% { transform: translateX(1%) rotate(2deg); color : lightcoral; }
+   75% { transform: translateX(-1%) rotate(-1deg); color : lightcoral;}
+   100% { transform: translateX(0%); color : lightcoral;} 
 }
 
 .blanks:hover{
     font-size: 1.6rem;
-    animation: expand 1s infinite;
 }
 
 @keyframes expand{
     0%, 20%, 100% {
-        min-width: 50px;
-        border-bottom: 2px solid black;
+        border-color: burlywood;
     } 
    40%,50%{
-       min-width: 60px;
-       border-bottom: 2px solid aqua;
+       border-color:  aqua;
     } 
    60%,80% {
-       min-width: 60px;
-       border-bottom: 2px solid brown;
+       border-color:  brown;
    } 
 }
 
@@ -71,15 +80,11 @@
 }
 
 @keyframes wobble{
-    0%, 20%, 100%{
-        width: 12%;
-    }
-    40%,50%{
-        width: 20%;
-        background-color: lightgreen;
-    }
-    60%,80% {
-       width: 15%;
-       background-color: lightsalmon;
-   } 
+    0% { transform: translateX(0%); } 
+   15% { transform: translateX(-25%) rotate(-5deg); } 
+   30% { transform: translateX(20%) rotate(3deg); } 
+   45% { transform: translateX(-15%) rotate(-3deg); } 
+   60% { transform: translateX(10%) rotate(2deg); }
+   75% { transform: translateX(-5%) rotate(-1deg); }
+   100% { transform: translateX(0%); }  
 }

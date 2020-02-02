@@ -71,8 +71,19 @@ const drag = (event)=> {
 
 const triggerDrop = (event) => {
     event.preventDefault();
+    event.toElement.classList.remove('blanks-border')
     let data = event.dataTransfer.getData("text");
     event.target.appendChild(document.getElementById(data));
+}
+
+const showBlock = (event) => {
+    event.preventDefault();
+    event.toElement.classList.add('blanks-border')
+}
+
+const removeBlock = (event) => {
+    event.preventDefault();
+    event.toElement.classList.remove('blanks-border')
 }
 
 const showErrorToUser = ()=>{
@@ -127,6 +138,8 @@ const setModule = (shuffledData) =>{
         const blank = makeElement('div',`blank${index}`,'col-auto blanks',"","");
         blank.addEventListener('drop',triggerDrop)
         blank.addEventListener('dragover',allowDrop)
+        blank.addEventListener('dragenter', showBlock)
+        blank.addEventListener('dragleave', removeBlock)
         eleBlank.append(blank)
         blanks.push(blank)
     }
@@ -172,20 +185,21 @@ const getMethod = (url) => {
 }
 
 const postMethod = (url, userData) => {
+    let data = {
+        start_time: startTime, 
+        end_time: endTime, 
+        user_response: userAnswer, 
+        question_id: questionID,
+    }
     console.log(userData)
     fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Accept': 'application/json',
-            'Authorization': 'UKreajCWVVzA8vJ9ZB6oyFSvlqkINTHvD2vGeNxBcaG9UtJDxYnftOOc1yVt'
+            "Content-Type": "application/json",
+            Accept: 'application/json',
+            Authorization: 'UKreajCWVVzA8vJ9ZB6oyFSvlqkINTHvD2vGeNxBcaG9UtJDxYnftOOc1yVt'
         },
-        data: {
-            start_time: startTime, 
-            end_time: endTime, 
-            user_response: userAnswer, 
-            question_id: questionID, 
-            user_data: userData
-        },
+        body: JSON.stringify(data)
     })
         .then(res => JSON.stringify(res))
         .then(data => console.log(data))
