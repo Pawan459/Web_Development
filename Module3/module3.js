@@ -36,6 +36,7 @@ const getURL = `http://${domainName}/api/v2/english/5/1/get_data`
 const postURL = `http://${domainName}/api/v2/english/5/1/post_user_response`
 let shuffled = null, userAnswer = [], correctAnswer = null, questionID = null, startTime = null, endTime = null
 let boxes =[], blanks = [], isInAir = false, dynamic_div_offset = [0, 0]
+let isAnswerCorrect = true
 const userData = {
     "status": "success",
     "status_code": 200,
@@ -84,6 +85,17 @@ const showBlock = (event) => {
 const removeBlock = (event) => {
     event.preventDefault();
     event.toElement.classList.remove('blanks-border')
+    event.toElement.classList.remove('wrongAnswer')
+}
+
+const correctionMessage = (message) =>{
+    let interval = setInterval(()=>{
+        if(isAnswerCorrect){
+            clearInterval(interval)
+            return
+        }
+        voiceAssistant(message)
+    },15000)
 }
 
 const showErrorToUser = ()=>{
@@ -96,8 +108,10 @@ const showErrorToUser = ()=>{
 }
 
 const checkAnswer = () =>{
+    isAnswerCorrect = true
     for(let i = 0;i<userAnswer.length;i++){
         if(userAnswer[i] != correctAnswer[i]){
+            isAnswerCorrect = false
             return false
         }
     }
@@ -228,6 +242,8 @@ const validateAnswer = (event)=>{
     else{
         eleNextStageButton.classList.add('next-stage-btn-wobbel')
         showErrorToUser()
+        let message = `You have entered wrong answer please reshuffle the blocks and press next button`
+        correctionMessage(message)
     }
 
 }
