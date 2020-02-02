@@ -34,9 +34,9 @@ const eleNextStageButton = document.getElementById('nextStageButton')
 const domainName = `15.206.80.44`
 const getURL = `http://${domainName}/api/v2/english/5/1/get_data`
 const postURL = `http://${domainName}/api/v2/english/5/1/post_user_response`
-let shuffled = null, userAnswer = [], correctAnswer = null, questionID = null, startTime = null, endTime = null
-let boxes =[], blanks = [], isInAir = false, dynamic_div_offset = [0, 0]
-let isAnswerCorrect = true
+let shuffled = null, questionID = null, startTime = null, endTime = null
+let boxes = [], blanks = [], wrongFilledBlanks = [], userAnswer = [], correctAnswer = []
+let isInAir = false, isAnswerCorrect = true
 const userData = {
     "status": "success",
     "status_code": 200,
@@ -73,6 +73,11 @@ const drag = (event)=> {
 const triggerDrop = (event) => {
     event.preventDefault();
     event.toElement.classList.remove('blanks-border')
+    if(event.toElement.hasChildNodes()){
+        let message = `Please Choose another blank to drop text`
+        voiceAssistant(message)
+        return
+    }
     let data = event.dataTransfer.getData("text");
     event.target.appendChild(document.getElementById(data));
 }
@@ -112,10 +117,10 @@ const checkAnswer = () =>{
     for(let i = 0;i<userAnswer.length;i++){
         if(userAnswer[i] != correctAnswer[i]){
             isAnswerCorrect = false
-            return false
+            wrongFilledBlanks.push(blanks[i])
         }
     }
-    return true
+    return isAnswerCorrect == true
 }
 
 const makeElement = (type, elementID, elementClass, value = "", text = "", width = null)=>{
@@ -154,13 +159,20 @@ const setModule = (shuffledData) =>{
         blank.addEventListener('dragover',allowDrop)
         blank.addEventListener('dragenter', showBlock)
         blank.addEventListener('dragleave', removeBlock)
+        blank.addEventListener('mouseover', updateBlank)
         eleBlank.append(blank)
         blanks.push(blank)
     }
     
 }
 
-const updateUserData = (dataObject) =>{
+const setUserData = (submitTime, status)=>{
+    endTime = submitTime
+    userData.status = status
+    postMethod(postURL, userData)
+}
+
+const updateUserData = (dataObject) => {
 
     // Initializing the userData for the Post Response
     questionID = dataObject.question_id
@@ -175,10 +187,20 @@ const updateUserData = (dataObject) =>{
     setModule(shuffled)
 }
 
-const setUserData = (submitTime, status)=>{
-    endTime = submitTime
-    userData.status = status
-    postMethod(postURL, userData)
+const updateBlank = (event) => {
+    if(isAnswerCorrect == true) return
+    let index = event.target.id.toString().split('blank')[1]
+    let element = document.createElement('div')
+    element.innerHTML = correctAnswer[index]
+    element.style.fontSize = '1.6rem'
+    // if(element.innerHTML == undefined){
+    //     return
+    // }
+    // if(event.target.childElementCount >= 1){
+    //     return
+    // }
+    // event.target.appendChild(element)
+    // setTimeout(event.target.remove(event.target.lastChild),2000)
 }
 
 const getMethod = (url) => {
