@@ -7,7 +7,7 @@ const eleBlanks = document.getElementById('blanks')
 
 // static variables
 
-let optionArray = [], blanksArray = []
+let currElement=null, blanksArray = [], totalBlanks = null
 
 
 
@@ -31,15 +31,36 @@ const renderInit = (event) =>{
         element.style.backgroundColor = getRandomColor()
         element.classList.add('dragme')
         element.id = `option${index++}`
-        optionArray.push(element)
+        element.addEventListener('mouseover', swapElement)
+    });
+    index = 0
+    const blank = [...eleBlanks.getElementsByClassName('blank')]
+    totalBlanks = blank.length
+    blank.forEach(element => {
+        element.id = `blank${index++}`
+        element.addEventListener('mouseover', blankAccept)
+        blanksArray.push(undefined)
     });
 
-    const blank = eleBlanks.getElementsByClassName('blank')
-    console.log(blank)
 
     document.addEventListener('mousedown', startDrag)
 
     document.addEventListener('mouseup', stopDrag)
+}
+
+const swapElement = (event) =>{
+    console.log(event)
+}
+
+const blankAccept = (event) =>{
+    let index = event.target.id.toString().split('blank')[1]
+    if(drag){
+        drop = false
+        targ.style.left = coordX + event.clientX - offsetX + 'px';
+        targ.style.top = coordY + event.clientY - offsetY + 'px';
+    }
+    
+    return false
 }
 
 const startDrag = (event) => {
@@ -49,6 +70,8 @@ const startDrag = (event) => {
     if (event.preventDefault) event.preventDefault();
 
     targ = event.target ? event.target : event.srcElement;
+
+    currElement = targ
     
     if (targ.className != 'col dragme') { return };
     
@@ -60,7 +83,9 @@ const startDrag = (event) => {
 
     coordX = parseInt(targ.style.left);
     coordY = parseInt(targ.style.top);
+
     drag = true;
+    drop = true;
 
     document.onmousemove = dragDiv;
     return false;
@@ -77,7 +102,17 @@ const dragDiv = (event)=> {
 }
 const stopDrag = (event) => {
     drag = false;
-    console.log(event)
+    if (!event) {
+        event = window.event;
+    }
+    if (event.preventDefault) event.preventDefault();
+
+    targ = event.target ? event.target : event.srcElement;
+    
+    if(drop){
+        targ.style.left = 0 + 'px'
+        targ.style.top = 0 + 'px'        
+    }
 }
 
 
