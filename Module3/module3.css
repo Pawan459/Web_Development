@@ -1,36 +1,112 @@
+body{
+    font-family: "Georgia", serif;
+    font-size: 25px;
+}
+.jumbotron{
+    background: light-grey
+}
+
 .row{
     padding-bottom: 20px;
 }
 
-.box{
-    width: max-content;
-    height: 40px;
-    background-color: rgb(224, 228, 226);
-    border: 1px solid black;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 200;
-    margin-left: 10px;
+img[src=""], .not-start {
+    display: none;
 }
 
+
+.boxes{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-size: 14px;
+    line-height: 1.8em;
+    color: #333;
+    text-align: center;
+    user-select: none;
+    box-sizing: border-box;
+    margin: 0 auto;
+    background: #ffd;
+    padding: 20px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 0 .3em rgba(0, 0, 0, .8);
+}
+
+.boxes .box {
+    margin: 0 0 0 10px;
+    background: #666 !important;
+}
+
+.box{
+    color: white;
+    width: max-content;
+    height: 40px;
+    padding: 15px;
+    line-height: 0.5rem;
+    min-width: 70px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: grab;
+    font-size: 1.5rem;
+    font-weight: 500;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-family: "Georgia", serif;
+    text-align: center;
+    user-select: none;
+    box-sizing: border-box;
+    height: 78px;
+    padding-top: 32px;
+    padding-bottom: 0;
+    border: 2px solid #333;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 50px;
+    text-shadow: 0 0 3px #000;
+}
+
+.box *{
+    cursor: grab;
+}
+
+
+.boxes, .blanks, #nextStageButton{
+    /* border: 5px solid #de4077; */
+}
+
+#blanks{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    color: #333;
+    user-select: none;
+    box-sizing: border-box;
+    margin: 50px auto 50px auto;
+    background: #ddf;
+    height: 120px;
+    padding: 20px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 0 0.3em rgba(0, 0, 0, .8);
+}
 .blanks{
+    text-align: center;
     margin-left: 10px;
-    min-height: 30px;
-    min-width: 50px;
+    min-height: 50px;
+    min-width: 70px;
+    background-color: white;
     width: max-content;
     height: max-content;
-    border-bottom: 2px solid black;
-    font-size: 1.5rem;
-    font-weight: 200;
+    border-radius: 10px;
     transition: 0.2s all ease-in;
+    -webkit-tap-highlight-color: rgba(0,0,0,0); 
+    border-style: dashed;
+    height:78px;
+}
+
+.blanks:not(:empty){
+    border:none;
 }
 
 .blanks-border{
-    min-height: 50px;
-    min-width: 70px;
-    width: max-content;
-    height: max-content;
-    border: 2px solid black;
+    min-width: 90px;
+    border: 5px solid black;
     animation: expand 1s infinite;
 }
 
@@ -72,6 +148,9 @@
 .next-stage-btn{
     margin-top: 20px;
     transition: all 0.9s ease-in;
+    border: 2px solid #333;
+    border-radius: 10px;
+    font-size: 43px;
 }
 
 .next-stage-btn-wobbel{
@@ -87,4 +166,173 @@
    60% { transform: translateX(10%) rotate(2deg); }
    75% { transform: translateX(-5%) rotate(-1deg); }
    100% { transform: translateX(0%); }  
+}
+
+
+
+
+
+
+
+
+
+#cssHead {
+    margin: 20px auto;
+    width: 180px;
+    background-color: #fff;
+    height: 180px;
+    -webkit-border-radius: 500px;
+    border-radius: 500px;
+    border: 3px solid #000;
+    -moz-transform: rotate(-2deg) skew(-3deg, -2deg);
+    -webkit-transform: rotate(-2deg) skew(-3deg, -2deg);
+    -o-transform: rotate(-2deg) skew(-3deg, -2deg);
+    -ms-transform: rotate(-2deg) skew(-3deg, -2deg);
+    transform: rotate(-2deg) skew(-3deg, -2deg);
+}
+.cssEye {
+    display: inline-block;
+}
+
+.cssPupil {
+    width: 12px;
+    background: #000;
+    height: 12px;
+    margin: 6px 0px 3px 8px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+}
+.cssEyeLid {
+    border: 1px solid #000;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 20px;
+    margin: 0;
+}
+.htmlEye {
+    border: 1px solid #000;
+    display: inline-block;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+}
+.wraphtmlEye {
+    background-color: #DDD;
+    margin: 6px;
+    padding: 4px;
+    width: 25px;
+    height: 25px;
+}
+.htmlPupil {
+    width: 12px;
+    background: #000;
+    height: 12px;
+    margin: 6px 4px 3px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+}
+.rightEye {
+    margin: 0;
+}
+.leftEye {
+    margin: 50px 4px 0px 66px;
+}
+.cssMouth {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 4px solid #000;
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+    height: 20px;
+    width: 45px;
+    margin: 0px auto 0;
+}
+
+#cssHead {
+    -webkit-animation: headRotations 10s infinite;
+    animation: headRotations 10s infinite;
+}
+@keyframes headRotations {
+    0% {    transform: rotate(-2deg) skew(-3deg, -2deg);    }
+    20% {   transform: rotate(2deg) skew(-3deg, -2deg);     }
+    25% {   transform: rotate(-4deg) skew(-3deg, -2deg);    }
+    28% {   transform: rotate(-2deg) skew(-3deg, -2deg);    }
+    40% {   transform: rotate(-2deg) skew(-3deg, -2deg);    }
+    50% {   transform: rotate(2deg) skew(-3deg, -2deg);     }
+    60% {   transform: rotate(-6deg) skew(-3deg, -2deg);    }
+    70% {   transform: rotate(6deg) skew(-3deg, -2deg);     }
+    90% {   transform: rotate(6deg) skew(-3deg, -2deg);     }
+    100% {  transform: rotate(-2deg) skew(-3deg, -2deg);    }
+}
+
+
+.wrong-ans .cssPupil,
+.right-ans .cssPupil {
+    animation: none;
+    margin: 4px 4px 0px 4px;
+}
+
+
+.cssPupil {
+    -webkit-animation: lookingAround 20s infinite;
+    animation: lookingAround 20s infinite;
+}
+@keyframes lookingAround {
+    0% {    margin: 6px 0px 3px 8px;    }
+    10% {   margin: 6px 0px 3px 8px;    }
+    12% {   margin: 6px 8px 3px 0px;    }
+    27% {   margin: 6px 8px 3px 0px;    }
+    30% {   margin: 6px 0px 3px 8px;    }
+    40% {   margin: 6px 0px 3px 8px;    }
+    43% {   margin: 1px 0px 8px 8px;    }
+    46% {   margin: 6px 0px 3px 8px;    }
+    57% {   margin: 6px 0px 3px 8px;    }
+    60% {   margin: 6px 8px 3px 0px;    }
+    63% {   margin: 6px 0px 3px 8px;    }
+    77% {   margin: 6px 0px 3px 8px;    }
+    80% {   margin: 6px 4px 3px 4px;    }
+    85% {   margin: 6px 4px 3px 4px;    }
+    88% {   margin: 6px 0px 3px 8px;    }
+    92% {   margin: 6px 0px 3px 8px;    }
+    100% {  margin: 6px 0px 3px 8px;    }
+}
+.cssEyeLid {
+    -webkit-animation: blinkingEye 7s infinite;
+    animation: blinkingEye 7s infinite;
+}
+@keyframes blinkingEye {
+    0% {    height: 20px;   margin: 0;  }
+    58% {   height: 20px;   margin: 0;  }
+    60% {   height: 0px;    margin: 10px 0; }
+    66% {   height: 20px;   margin: 0;  }
+    100% {  height: 20px;   margin: 0;  }
+}
+
+.right-ans .cssMouth {
+    -webkit-animation: smilingMouth 8s infinite;
+    animation: smilingMouth 8s infinite;
+}
+
+.wrong-ans .cssMouth {
+    -webkit-animation: smilingMouth 8s infinite;
+    animation: smilingMouth 8s infinite;
+    transform: rotate(180deg);
+    top: 29px;
+    position: relative;
+}
+
+@keyframes smilingMouth {
+    0% {    height: 20px;   border-bottom: 3px solid #000;  margin: 0px auto 0;     }
+    20% {   height: 50px;   border-bottom: 20px solid #000;  margin: -10px auto 0;   }
+    80% {   height: 35px;   border-bottom: 20px solid #000;  margin: -10px auto 0;   }
+    100% {  height: 20px;   border-bottom: 3px solid #000;  margin: 0px auto 0;     }
+}
+
+.right-ans .cssEye ,
+.wrong-ans .cssEye  {
+    transform: scale(1.3);
+}
+.right-ans .cssEye.leftEye{
+    margin: 50px 10px 0px 57px;
 }

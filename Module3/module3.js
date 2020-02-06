@@ -25,9 +25,10 @@ const getDataReference = {
 
 // Dom Elements
 const eleBlank = document.getElementById('blanks')
-const eleBox = document.getElementById('boxes')
+const eleBoxes = document.getElementById('boxes')
 const eleImage = document.getElementById('sourceImage')
 const eleNextStageButton = document.getElementById('nextStageButton')
+const eleCssHead = document.getElementById('cssHead')
 // const eleImageCaption = document.getElementById('captionImage')
 
 // static elements
@@ -36,7 +37,7 @@ const getURL = `http://${domainName}/api/v2/english/5/1/get_data`
 const postURL = `http://${domainName}/api/v2/english/5/1/post_user_response`
 let shuffled = null, questionID = null, startTime = null, endTime = null
 let boxes = [], blanks = [], wrongFilledBlanks = [], userAnswer = [], correctAnswer = []
-let isInAir = false, isAnswerCorrect = true
+let isInAir = false, isAnswerCorrect = true,caption='', captionTimeoutId=0;
 const userData = {
     "status": "success",
     "status_code": 200,
@@ -64,10 +65,29 @@ const allowDrop = (event) => {
     event.preventDefault();
 }
 
+const readCaption = ()=>{
+    let assistant = new SpeechSynthesisUtterance()
+    assistant.text = caption;
+    if(caption){
+        assistant.onend = ()=>{
+            captionTimeoutId = setTimeout(readCaption,1000)
+        };
+        speechSynthesis.speak(assistant);
+    } else {
+        captionTimeoutId = setTimeout(readCaption,1000);
+    }
+}
+
 const drag = (event)=> {
     let voiceText  = event.toElement.innerText
     voiceAssistant(voiceText)
     event.dataTransfer.setData("text", event.target.id);
+}
+
+function triggerBoxDrop(event){
+    event.preventDefault();
+    let data = event.dataTransfer.getData("text");
+    event.target.appendChild(document.getElementById(data));
 }
 
 const triggerDrop = (event) => {
@@ -134,27 +154,37 @@ const makeElement = (type, elementID, elementClass, value = "", text = "", width
     }
     return element
 }
-
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  
 const setModule = (shuffledData) =>{
     let dataLength = shuffledData.length
 
     // Making Boxes With Text In The DOM
     for (let index = 0; index < dataLength; index++) {
-        const parentElement = makeElement('div', `box${index}`, 'col-auto box');
-        const childElement = makeElement('label', `boxlabel${index}`, 'boxLabel', "", shuffledData[index])
-        childElement.draggable = true
-        childElement.addEventListener('dragstart',drag)
-        parentElement.addEventListener('dragover',allowDrop)
-        parentElement.addEventListener('drop',triggerDrop)
-        parentElement.append(childElement)
-        eleBox.append(parentElement)
-        boxes.push(childElement)
+        const parentElement = makeElement('div', `box${index}`, 'box','',shuffledData[index]);
+        parentElement.style.backgroundColor = getRandomColor();
+        // parentElement.style.top = (Math.random() * 150) +'px';;
+        // parentElement.style.left = (index * eleBoxes.offsetWidth / dataLength)+'px';
+
+
+        parentElement.draggable = true
+        parentElement.addEventListener('dragstart',drag)
+
+        eleBoxes.append(parentElement)
+        boxes.push(parentElement)
     }
 
     // Making Blank Spaces In The DOM
     for (let index = 0; index < dataLength; index++) {
         const box = boxes[index]
-        const blank = makeElement('div',`blank${index}`,'col-auto blanks',"","");
+        const blank = makeElement('div',`blank${index}`,'blanks',"","");
         blank.addEventListener('drop',triggerDrop)
         blank.addEventListener('dragover',allowDrop)
         blank.addEventListener('dragenter', showBlock)
@@ -178,6 +208,7 @@ const updateUserData = (dataObject) => {
     questionID = dataObject.question_id
     shuffled = dataObject.shuffled
     correctAnswer = dataObject.answer
+    caption = dataObject.caption
 
     // Setting Image Source 
     eleImage.src = dataObject.asset
@@ -205,18 +236,13 @@ const updateBlank = (event) => {
 
 const getMethod = (url) => {
     fetch(url, {
-        method: 'GET',
-        dataType: 'json',
         headers: {
             'Accept': 'application/json',
             'Authorization': 'UKreajCWVVzA8vJ9ZB6oyFSvlqkINTHvD2vGeNxBcaG9UtJDxYnftOOc1yVt'
-            // 'Access-Control-Allow-Methods': '*'
-        },
-        contentType: 'application/json; charset=utf-8',
-        
+        },        
     })
         .then(res => res.json())
-        .then(data => updateUserData(data))
+        .then(data => updateUserData(data.data))
         .catch(err => console.log('we got a error in Get Method', err))
 }
 
@@ -255,14 +281,20 @@ const validateAnswer = (event)=>{
     })
 
     // Speaking the user Answer
-    voiceAssistant(`You filled the answer as ${combinedAnswer}`)
+    // voiceAssistant(`You filled the answer as ${combinedAnswer}`)
 
     if(checkAnswer()){
         eleNextStageButton.classList.remove('next-stage-btn-wobbel')
+        voiceAssistant(`Congratulations!! correct answer.`)
         setUserData(new Date(), 0)
+        eleCssHead.classList.add('right-ans')
+        setTimeout(()=>{renderInit();
+            eleCssHead.classList.remove('right-ans');},3000);
     }
     else{
         eleNextStageButton.classList.add('next-stage-btn-wobbel')
+        eleCssHead.classList.add('wrong-ans');
+        setTimeout(()=>{eleCssHead.classList.remove('wrong-ans');},3000);
         showErrorToUser()
         let message = `You have entered wrong answer please reshuffle the blocks and press next button`
         correctionMessage(message)
@@ -271,9 +303,19 @@ const validateAnswer = (event)=>{
 }
 
 const renderInit = () =>{
-    //getMethod(getURL)
-    getData()
-    .then(dataObject => updateUserData(dataObject.data));
+    getMethod(getURL)
+    clearMemory();
+    readCaption();
+    eleBoxes.addEventListener('dragover',allowDrop)
+    eleBoxes.addEventListener('drop',triggerBoxDrop)
+
+    // .then(dataObject => console.log(dataObject));
+}
+
+function clearMemory(){
+    clearTimeout(captionTimeoutId);
+    eleBlank.innerHTML = '';
+    blanks = [];
 }
 
 
@@ -291,8 +333,23 @@ function postData() {
     })
 }
 
+function renderStart(){
+    let btnStart = document.getElementById('startBtn');
+    let [a,b,c,d] = document.getElementsByClassName('not-start');
+
+    btnStart.onclick = ()=>{ 
+        renderInit();
+        a.classList.remove('not-start');
+        b.classList.remove('not-start');
+        c.classList.remove('not-start');
+        d.classList.remove('not-start');
+        btnStart.classList.add('not-start');
+    };
+}
+
 // Event Bindings here
 
-window.addEventListener('load', renderInit)
+
+window.addEventListener('load', renderStart)
 
 eleNextStageButton.addEventListener('click', validateAnswer)
