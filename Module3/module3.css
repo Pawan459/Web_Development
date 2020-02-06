@@ -168,6 +168,9 @@ img[src=""], .not-start {
    100% { transform: translateX(0%); }  
 }
 
+#resetButton {
+    margin-left: 10px;
+}
 
 
 

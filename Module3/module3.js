@@ -29,6 +29,7 @@ const eleBoxes = document.getElementById('boxes')
 const eleImage = document.getElementById('sourceImage')
 const eleNextStageButton = document.getElementById('nextStageButton')
 const eleCssHead = document.getElementById('cssHead')
+const eleResetButton = document.getElementById('resetButton')
 // const eleImageCaption = document.getElementById('captionImage')
 
 // static elements
@@ -38,6 +39,7 @@ const postURL = `http://${domainName}/api/v2/english/5/1/post_user_response`
 let shuffled = null, questionID = null, startTime = null, endTime = null
 let boxes = [], blanks = [], wrongFilledBlanks = [], userAnswer = [], correctAnswer = []
 let isInAir = false, isAnswerCorrect = true,caption='', captionTimeoutId=0;
+const numberSpelling = ['zero','one', 'two', 'three' ,'four', 'five', 'six', 'seven', 'eight', 'nine']
 const userData = {
     "status": "success",
     "status_code": 200,
@@ -81,6 +83,13 @@ const readCaption = ()=>{
 const drag = (event)=> {
     let voiceText  = event.toElement.innerText
     voiceAssistant(voiceText)
+    let parent = event.target.parentElement
+    if(parent.className == 'blanks'){
+        let first = parent.firstChild
+        console.log(first)
+        first.style.display = 'block'
+    }
+    // document.getElementById().par
     event.dataTransfer.setData("text", event.target.id);
 }
 
@@ -92,14 +101,22 @@ function triggerBoxDrop(event){
 
 const triggerDrop = (event) => {
     event.preventDefault();
-    event.toElement.classList.remove('blanks-border')
-    if(event.toElement.hasChildNodes()){
-        let message = `Please Choose another blank to drop text`
-        voiceAssistant(message)
-        return
-    }
+    event.target.classList.remove('blanks-border')
     let data = event.dataTransfer.getData("text");
     event.target.appendChild(document.getElementById(data));
+    if(event.target.hasChildNodes()){
+        let first = event.target.firstChild
+        console.log(first.className)
+        if(first.className == 'spell'){
+            first.style.display = 'none'
+        }
+        else{
+            let message = `Please Choose another blank to drop text`
+            voiceAssistant(message)
+            return
+        }
+    }
+    
 }
 
 const showBlock = (event) => {
@@ -184,7 +201,9 @@ const setModule = (shuffledData) =>{
     // Making Blank Spaces In The DOM
     for (let index = 0; index < dataLength; index++) {
         const box = boxes[index]
-        const blank = makeElement('div',`blank${index}`,'blanks',"","");
+        const blank = makeElement('div',`blank${index}`,'blanks');
+        let spell = makeElement('label',numberSpelling[index+1],'spell',"",numberSpelling[index+1])
+        blank.append(spell)
         blank.addEventListener('drop',triggerDrop)
         blank.addEventListener('dragover',allowDrop)
         blank.addEventListener('dragenter', showBlock)
@@ -194,6 +213,17 @@ const setModule = (shuffledData) =>{
         blanks.push(blank)
     }
     
+}
+
+const resetModule = (event) =>{
+    eleBlank.innerHTML = ""
+    eleBoxes.innerHTML = ""
+    boxes = [] 
+    blanks = []
+    wrongFilledBlanks = []
+    userAnswer = []
+    correctAnswer = []
+    renderInit()
 }
 
 const setUserData = (submitTime, status)=>{
@@ -347,9 +377,13 @@ function renderStart(){
     };
 }
 
+
+
 // Event Bindings here
 
 
 window.addEventListener('load', renderStart)
 
 eleNextStageButton.addEventListener('click', validateAnswer)
+
+eleResetButton.addEventListener('click', resetModule)
