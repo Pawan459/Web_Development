@@ -339,3 +339,18 @@ img[src=""], .not-start {
 .right-ans .cssEye.leftEye{
     margin: 50px 10px 0px 57px;
 }
+
+
+#cssHead{
+    transition: 0.2s border ease-in;
+}
+
+.right-ans#cssHead{
+    border-color: green;
+    border-width: 5px;
+
+}
+.wrong-ans#cssHead{
+    border-color: red;
+    border-width: 5px;
+}
