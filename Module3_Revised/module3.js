@@ -7,8 +7,8 @@ const eleBlanks = document.getElementById('blanks')
 
 // static variables
 
-let currElement=null, blanksArray = [], totalBlanks = null
-
+let currElement=null, blanksArray = []
+let drag = undefined, drop = undefined, totalBlanks = undefined
 
 
 // Function Declarations
@@ -49,15 +49,26 @@ const renderInit = (event) =>{
 }
 
 const swapElement = (event) =>{
-    console.log(event)
+    
 }
 
 const blankAccept = (event) =>{
-    let index = event.target.id.toString().split('blank')[1]
+    let currTarget = event.target
+    console.log(currTarget)
+    console.log(targ)
+    let index = currTarget.id.toString().split('blank')[1]
     if(drag){
         drop = false
+        drag = false
         targ.style.left = coordX + event.clientX - offsetX + 'px';
         targ.style.top = coordY + event.clientY - offsetY + 'px';
+        // document.getElementById().style.
+        currTarget.style.width = targ.width + 10 + 'px'
+        currTarget.style.height = targ.height + 5 + 'px'
+    }
+    else{
+        currTarget.style.minWidth = 70 + 'px'
+        currTarget.style.minHeight = 20 + 'px'
     }
     
     return false
