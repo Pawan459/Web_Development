@@ -128,6 +128,8 @@ const removeBlock = (event) => {
     event.preventDefault();
     event.toElement.classList.remove('blanks-border')
     event.toElement.classList.remove('wrongAnswer')
+    event.toElement.parentElement.classList.remove('blanks-border')
+    event.toElement.parentElement.classList.remove('wrongAnswer')
 }
 
 const correctionMessage = (message) =>{
@@ -209,6 +211,7 @@ const setModule = (shuffledData) =>{
         blank.addEventListener('dragenter', showBlock)
         blank.addEventListener('dragleave', removeBlock)
         blank.addEventListener('mouseover', updateBlank)
+        blank.addEventListener('click', removeBlock)
         eleBlank.append(blank)
         blanks.push(blank)
     }
