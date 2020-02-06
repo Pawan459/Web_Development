@@ -155,7 +155,7 @@ img[src=""], .not-start {
 
 .next-stage-btn-wobbel{
     transition: all 0.9s ease-in;
-    animation: wobble 1s infinite;
+    animation: wobble 1s;
 }
 
 @keyframes wobble{
