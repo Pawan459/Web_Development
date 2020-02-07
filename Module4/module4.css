@@ -14,7 +14,6 @@ img[src=""], .not-start {
     display: none;
 }
 
-
 .boxes{
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     font-size: 14px;
@@ -72,13 +71,26 @@ img[src=""], .not-start {
     /* border: 5px solid #de4077; */
 }
 
-#blanks{
+.blank{
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     color: #333;
     user-select: none;
     box-sizing: border-box;
-    margin: 5px auto 50px auto;
+    margin: 5px 10px 50px 10px;
     background: #ddf;
+    padding: 10px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 0 0.3em rgba(0, 0, 0, .8);
+}
+
+.blank-input{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    color: #333;
+    user-select: none;
+    box-sizing: border-box;
+    margin: 5px 5px 50px 5px;
+    background: rgb(239, 239, 247);
     padding: 10px;
     border: 2px solid #333;
     border-radius: 10px;

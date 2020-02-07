@@ -44,55 +44,27 @@ function getRandomColor() {
     return color;
   }
   
-const setModule = (shuffledData) =>{
-    let dataLength = shuffledData.length
+const setModule = () =>{
+    const question = currentData.question
+    correctAnswer = currentData.answer
+    const daysArray = currentData.shuffled
 
-    // Making Boxes With Text In The DOM
-    for (let index = 0; index < dataLength; index++) {
-        const parentElement = makeElement('div', `box${index}`, 'box','',shuffledData[index]);
-        parentElement.style.backgroundColor = getRandomColor();
-        // parentElement.style.top = (Math.random() * 150) +'px';;
-        // parentElement.style.left = (index * eleBoxes.offsetWidth / dataLength)+'px';
-
-
-        // parentElement.draggable = true
-        parentElement.addEventListener('dragstart',drag)
-
-
-        $(parentElement).data( 'value', shuffledData[index] ).draggable({
-            containment: '#module1-panel',
-            cursor: 'move',
-            revert: true
-          });
-
-
-        eleBoxes.append(parentElement)
-        boxes.push(parentElement)
+    for (let i = 0; i < question.length; i++) {
+        if (question[i].state == 1) {
+            const requiredDay = makeElement('input', `question${i}`, 'col-auto blank-input')
+            requiredDay.addEventListener('change', speakWord)
+            eleBlanks.append(requiredDay)
+        }
+        else {
+            const requiredDay = makeElement('div', `question${i}`, 'col-auto blank', "", question[i].value)
+            eleBlanks.append(requiredDay)
+        }
     }
 
-    // Making Blank Spaces In The DOM
-    for (let index = 0; index < dataLength; index++) {
-        const box = boxes[index]
-         const blank = makeElement('div',`blank${index}`,'box blanks',"","");
-
-        blank.innerHTML = correctAnswer[index] ;
-        let spell = makeElement('label',numberSpelling[index+1],'spell',"",numberSpelling[index+1])
-        blank.append(spell)
-        $(blank).data('value', correctAnswer[index] ).droppable( {
-            accept: '.box',
-            hoverClass: 'blanks-border',
-            drop: triggerDrop
-          } );
-        // blank.addEventListener('drop',triggerDrop)
-        //blank.addEventListener('dragover',allowDrop)
-        blank.addEventListener('dragenter', showBlock)
-        blank.addEventListener('dragleave', removeBlock)
-        blank.addEventListener('mouseover', updateBlank)
-        blank.addEventListener('click', removeBlock)
-        eleBlank.append(blank)
-        blanks.push(blank)
-    }
-    
+    for (let i = 0; i < daysArray.length; i++) {
+        const day = makeElement('div', `day${i}`, 'col-auto box', "", daysArray[i])
+        eleShuffledArray.append(day)
+    }   
 }
 
 const resetModule = (event) =>{
@@ -114,26 +86,7 @@ const setUserData = (submitTime, status)=>{
 
 const updateUserData = (dataObject) => {
     currentData = dataObject
-    const question = currentData.question
-    correctAnswer = currentData.answer
-    const daysArray = currentData.shuffled
-
-    for (let i = 0; i < question.length; i++) {
-        if (question[i].state == 1) {
-            const requiredDay = makeElement('input', `question${i}`, 'col')
-            requiredDay.addEventListener('change', speakWord)
-            eleBlanks.append(requiredDay)
-        }
-        else {
-            const requiredDay = makeElement('div', `question${i}`, 'col-auto', "", question[i].value)
-            eleBlanks.append(requiredDay)
-        }
-    }
-
-    for (let i = 0; i < daysArray.length; i++) {
-        const day = makeElement('div', `day${i}`, 'col-auto box', "", daysArray[i])
-        eleShuffledArray.append(day)
-    }
+    setModule()
 }
 
 const updateBlank = (event) => {
