@@ -19,122 +19,9 @@ const voiceAssistant = (voiceMessage) =>{
     assistant.text = voiceMessage
     speechSynthesis.speak(assistant)
 }
-const allowDrop = (event) => {
-    event.preventDefault();
-}
-
-const readCaption = ()=>{
-    let assistant = new SpeechSynthesisUtterance()
-    assistant.text = caption;
-    if(caption){
-        assistant.onend = ()=>{
-            captionTimeoutId = setTimeout(readCaption,1000)
-        };
-        speechSynthesis.speak(assistant);
-    } else {
-        captionTimeoutId = setTimeout(readCaption,1000);
-    }
-}
-
-const drag = (event)=> {
-    let voiceText  = event.toElement.innerText
-    voiceAssistant(voiceText)
-    let parent = event.target.parentElement
-    if(parent.className == 'blanks'){
-        let first = parent.firstChild
-        console.log(first)
-        first.style.display = 'block'
-    }
-    // document.getElementById().par
-    event.dataTransfer.setData("text", event.target.id);
-}
-
-function triggerBoxDrop(event){
-    event.preventDefault();
-    let data = event.dataTransfer.getData("text");
-    event.target.appendChild(document.getElementById(data));
-}
-
-function triggerDrop(event,ui) {
-
-
-    event.preventDefault();
-    event.toElement.classList.remove('blanks-border')
-  
-    //Grab the slot number and card number
-  var answerValue = $(this).data('value');
-  var dragedValue = ui.draggable.data('value');
-  
-//   console.log($(this),answerValue,dragedValue);
-
-  //If the cards was dropped to the correct slot,
-  //change the card colour, position it directly
-  //on top of the slot and prevent it being dragged again
-  if (answerValue === dragedValue) {
-    $(this).droppable('disable');
-    ui.draggable.position({
-      of: $(this), my: 'left top', at: 'left top'
-    });
-    //This prevents the card from being
-    //pulled back to its initial position
-    //once it has been dropped
-    ui.draggable.draggable('option', 'revert', false);
-    correctCards++; //increment keep track correct cards
-
-    // this.appendChild(ui.draggable);
-  }
-
-
-    // if(event.toElement.hasChildNodes()){
-    //     let message = `Please Choose another blank to drop text`
-    //     voiceAssistant(message)
-    //     return
-    // }
-    // let data = event.dataTransfer.getData("text");
-    // event.target.appendChild(document.getElementById(data));
-}
-const showBlock = (event) => {
-    event.preventDefault();
-    event.toElement.classList.add('blanks-border')
-}
-
-const removeBlock = (event) => {
-    event.preventDefault();
-    event.toElement.classList.remove('blanks-border')
-    event.toElement.classList.remove('wrongAnswer')
-    event.toElement.parentElement.classList.remove('blanks-border')
-    event.toElement.parentElement.classList.remove('wrongAnswer')
-}
-
-const correctionMessage = (message) =>{
-    let interval = setInterval(()=>{
-        if(isAnswerCorrect){
-            clearInterval(interval)
-            return
-        }
-        voiceAssistant(message)
-    },15000)
-}
-
-const showErrorToUser = ()=>{
-    for(let i = 0;i<userAnswer.length;i++){
-        if(userAnswer[i] != correctAnswer[i]){
-            let blank = blanks[i]
-            blank.classList.add('wrongAnswer')
-        }
-    }
-}
 
 const checkAnswer = () =>{
-    return correctCards == correctAnswer.length;
-    // isAnswerCorrect = true
-    // for(let i = 0;i<userAnswer.length;i++){
-    //     if(userAnswer[i] != correctAnswer[i]){
-    //         isAnswerCorrect = false
-    //         wrongFilledBlanks.push(blanks[i])
-    //     }
-    // }
-    // return isAnswerCorrect == true
+    // need to code
 }
 
 const makeElement = (type, elementID, elementClass, value = "", text = "", width = null)=>{
@@ -238,7 +125,7 @@ const updateUserData = (dataObject) => {
             eleBlanks.append(requiredDay)
         }
         else {
-            const requiredDay = makeElement('div', `question${i}`, 'col', "", question[i].value)
+            const requiredDay = makeElement('div', `question${i}`, 'col-auto', "", question[i].value)
             eleBlanks.append(requiredDay)
         }
     }
@@ -307,36 +194,7 @@ const postMethod = (url) => {
 }
 
 const validateAnswer = (event)=>{
-    // Making the array empty
-    userAnswer.splice(0, userAnswer.length)
-
-    // Initializing the array with the user Answer
-    let combinedAnswer = ""
-    blanks.map(blank => {
-        blank.classList.remove('wrongAnswer')
-        userAnswer.push(blank.innerText)
-        combinedAnswer += blank.innerText+" "
-    })
-
-    // Speaking the user Answer
-    // voiceAssistant(`You filled the answer as ${combinedAnswer}`)
-
-    if(checkAnswer()){
-        eleNextStageButton.classList.remove('next-stage-btn-wobbel')
-        voiceAssistant(`Congratulations!! correct answer.`)
-        setUserData(new Date(), 0)
-        eleCssHead.classList.add('right-ans')
-        setTimeout(()=>{renderInit();
-            eleCssHead.classList.remove('right-ans');},3000);
-    }
-    else{
-        eleNextStageButton.classList.add('next-stage-btn-wobbel')
-        eleCssHead.classList.add('wrong-ans');
-        setTimeout(()=>{eleCssHead.classList.remove('wrong-ans');},3000);
-        showErrorToUser()
-        let message = `You have entered wrong answer please reshuffle the blocks and press next button`
-        correctionMessage(message)
-    }
+    // Need to be coded
 
 }
 
