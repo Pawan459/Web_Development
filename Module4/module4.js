@@ -31,6 +31,12 @@ const makeElement = (type, elementID, elementClass, value = "", text = "", width
     }
     return element
 }
+
+const updateInput = (event) =>{
+    let input = eleBlanks.getElementsByTagName('input')[0]
+    input.value = event.target.innerText
+    voiceAssistant(input.value)
+}
   
 const setModule = () =>{
     const question = currentData.question
@@ -52,6 +58,7 @@ const setModule = () =>{
 
     for (let i = 0; i < daysArray.length; i++) {
         const day = makeElement('div', `day${i}`, 'col-auto box', "", daysArray[i])
+        day.addEventListener('click', updateInput)
         eleShuffledArray.append(day)
     }   
 }
