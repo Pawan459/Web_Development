@@ -58,11 +58,7 @@ const setModule = () =>{
 
 const resetModule = (event) =>{
     eleBlanks.innerHTML = ""
-    currentData = undefined
-    startTime = null
-    correctAnswer= null
-    userAnswer = null
-    questionId = null
+    eleShuffledArray.innerHTML=""
     renderInit()
 }
 
@@ -139,7 +135,7 @@ const validateAnswer = (event)=>{
         setUserData(new Date(), 0)
         eleCssHead.classList.add('right-ans')
         setTimeout(() => {
-            renderInit();
+            resetModule();
             eleCssHead.classList.remove('right-ans');
         }, 3000);
     }
