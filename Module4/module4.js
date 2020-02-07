@@ -11,7 +11,7 @@ const domainName = `15.206.80.44`
 const getURL = undefined
 const postURL = undefined
 let currentData,
-    startTime, correctAnswer, userAnswer, questionId, isAnswerCorrect = false;
+    startTime, correctAnswer, userAnswer, questionId, status, isAnswerCorrect = false;
 
 // Function Declrations
 const voiceAssistant = (voiceMessage) =>{
@@ -66,10 +66,10 @@ const resetModule = (event) =>{
     renderInit()
 }
 
-const setUserData = (submitTime, status)=>{
+const setUserData = (submitTime, questionStatus)=>{
     endTime = submitTime
-    userData.status = status
-    postMethod(postURL, userData)
+    status = questionStatus
+    postMethod(postURL)
 }
 
 const updateUserData = (dataObject) => {
@@ -106,6 +106,7 @@ const postMethod = (url) => {
         question_id: questionId,  
     }
     console.log(data)
+    if(url == undefined) return
     fetch(url, {
         method: "POST",
         headers: {
