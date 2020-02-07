@@ -96,6 +96,7 @@ img[src=""], .not-start {
     border: 2px solid #333;
     border-radius: 10px;
     box-shadow: 0 0 0.3em rgba(0, 0, 0, .8);
+    text-align: center;
 }
 .blanks{
     position: relative;

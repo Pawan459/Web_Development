@@ -11,17 +11,13 @@ const domainName = `15.206.80.44`
 const getURL = undefined
 const postURL = undefined
 let currentData,
-    startTime, correctAnswer, userAnswer, questionId;
+    startTime, correctAnswer, userAnswer, questionId, isAnswerCorrect = false;
 
 // Function Declrations
 const voiceAssistant = (voiceMessage) =>{
     let assistant = new SpeechSynthesisUtterance()
     assistant.text = voiceMessage
     speechSynthesis.speak(assistant)
-}
-
-const checkAnswer = () =>{
-    // need to code
 }
 
 const makeElement = (type, elementID, elementClass, value = "", text = "", width = null)=>{
@@ -38,7 +34,8 @@ const makeElement = (type, elementID, elementClass, value = "", text = "", width
   
 const setModule = () =>{
     const question = currentData.question
-    correctAnswer = currentData.answer
+    correctAnswer = currentData.answer.toString()
+    correctAnswer = correctAnswer.toLowerCase()
     const daysArray = currentData.shuffled
 
     for (let i = 0; i < question.length; i++) {
@@ -60,7 +57,7 @@ const setModule = () =>{
 }
 
 const resetModule = (event) =>{
-    eleBlank.innerHTML = ""
+    eleBlanks.innerHTML = ""
     currentData = undefined
     startTime = null
     correctAnswer= null
@@ -123,9 +120,37 @@ const postMethod = (url) => {
         .catch(err => console.log('we encountered a error in POST Method', err))
 }
 
-const validateAnswer = (event)=>{
-    // Need to be coded
+const correctionMessage = (message) => {
+    let interval = setInterval(() => {
+        if (isAnswerCorrect) {
+            clearInterval(interval)
+            return
+        }
+        voiceAssistant(message)
+    }, 15000)
+}
 
+const validateAnswer = (event)=>{
+    if(userAnswer.toLowerCase() == correctAnswer){
+        isAnswerCorrect = true
+        eleNextStageButton.classList.remove('next-stage-btn-wobbel')
+        voiceAssistant(`Congratulations!! correct answer.`)
+        setUserData(new Date(), 0)
+        eleCssHead.classList.add('right-ans')
+        setTimeout(() => {
+            renderInit();
+            eleCssHead.classList.remove('right-ans');
+        }, 3000);
+    }
+    else{
+        isAnswerCorrect = false
+        eleNextStageButton.classList.add('next-stage-btn-wobbel')
+        eleCssHead.classList.add('wrong-ans');
+        setTimeout(() => { eleCssHead.classList.remove('wrong-ans'); }, 3000);
+        // showErrorToUser()
+        let message = `You have entered wrong answer please check again`
+        correctionMessage(message)
+    }
 }
 
 const renderInit = () =>{
