@@ -99,7 +99,6 @@ img[src=""], .not-start {
 .blanks{
     position: relative;
     text-align: center;
-    margin-left: 10px;
     min-height: 50px;
     min-width: 70px;
     background-color: white;
