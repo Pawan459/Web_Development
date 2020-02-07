@@ -38,7 +38,7 @@ const getURL = `http://${domainName}/api/v2/english/5/1/get_data`
 const postURL = `http://${domainName}/api/v2/english/5/1/post_user_response`
 let shuffled = null, questionID = null, startTime = null, endTime = null
 let boxes = [], blanks = [], wrongFilledBlanks = [], userAnswer = [], correctAnswer = []
-let isInAir = false, isAnswerCorrect = true,caption='', captionTimeoutId=0;
+let isInAir = false, isAnswerCorrect = true,caption='', captionTimeoutId=0,correctCards=0;
 const numberSpelling = ['zero','one', 'two', 'three' ,'four', 'five', 'six', 'seven', 'eight', 'nine']
 const userData = {
     "status": "success",
@@ -99,26 +99,44 @@ function triggerBoxDrop(event){
     event.target.appendChild(document.getElementById(data));
 }
 
-const triggerDrop = (event) => {
-    event.preventDefault();
-    event.target.classList.remove('blanks-border')
-    let data = event.dataTransfer.getData("text");
-    event.target.appendChild(document.getElementById(data));
-    if(event.target.hasChildNodes()){
-        let first = event.target.firstChild
-        console.log(first.className)
-        if(first.className == 'spell'){
-            first.style.display = 'none'
-        }
-        else{
-            let message = `Please Choose another blank to drop text`
-            voiceAssistant(message)
-            return
-        }
-    }
-    
-}
+function triggerDrop(event,ui) {
 
+
+    event.preventDefault();
+    event.toElement.classList.remove('blanks-border')
+  
+    //Grab the slot number and card number
+  var answerValue = $(this).data('value');
+  var dragedValue = ui.draggable.data('value');
+  
+//   console.log($(this),answerValue,dragedValue);
+
+  //If the cards was dropped to the correct slot,
+  //change the card colour, position it directly
+  //on top of the slot and prevent it being dragged again
+  if (answerValue === dragedValue) {
+    $(this).droppable('disable');
+    ui.draggable.position({
+      of: $(this), my: 'left top', at: 'left top'
+    });
+    //This prevents the card from being
+    //pulled back to its initial position
+    //once it has been dropped
+    ui.draggable.draggable('option', 'revert', false);
+    correctCards++; //increment keep track correct cards
+
+    // this.appendChild(ui.draggable);
+  }
+
+
+    // if(event.toElement.hasChildNodes()){
+    //     let message = `Please Choose another blank to drop text`
+    //     voiceAssistant(message)
+    //     return
+    // }
+    // let data = event.dataTransfer.getData("text");
+    // event.target.appendChild(document.getElementById(data));
+}
 const showBlock = (event) => {
     event.preventDefault();
     event.toElement.classList.add('blanks-border')
@@ -152,14 +170,15 @@ const showErrorToUser = ()=>{
 }
 
 const checkAnswer = () =>{
-    isAnswerCorrect = true
-    for(let i = 0;i<userAnswer.length;i++){
-        if(userAnswer[i] != correctAnswer[i]){
-            isAnswerCorrect = false
-            wrongFilledBlanks.push(blanks[i])
-        }
-    }
-    return isAnswerCorrect == true
+    return correctCards == correctAnswer.length;
+    // isAnswerCorrect = true
+    // for(let i = 0;i<userAnswer.length;i++){
+    //     if(userAnswer[i] != correctAnswer[i]){
+    //         isAnswerCorrect = false
+    //         wrongFilledBlanks.push(blanks[i])
+    //     }
+    // }
+    // return isAnswerCorrect == true
 }
 
 const makeElement = (type, elementID, elementClass, value = "", text = "", width = null)=>{
@@ -193,8 +212,16 @@ const setModule = (shuffledData) =>{
         // parentElement.style.left = (index * eleBoxes.offsetWidth / dataLength)+'px';
 
 
-        parentElement.draggable = true
+        // parentElement.draggable = true
         parentElement.addEventListener('dragstart',drag)
+
+
+        $(parentElement).data( 'value', shuffledData[index] ).draggable({
+            containment: '#module1-panel',
+            cursor: 'move',
+            revert: true
+          });
+
 
         eleBoxes.append(parentElement)
         boxes.push(parentElement)
@@ -203,11 +230,18 @@ const setModule = (shuffledData) =>{
     // Making Blank Spaces In The DOM
     for (let index = 0; index < dataLength; index++) {
         const box = boxes[index]
-        const blank = makeElement('div',`blank${index}`,'blanks');
+         const blank = makeElement('div',`blank${index}`,'box blanks',"","");
+
+        blank.innerHTML = correctAnswer[index] ;
         let spell = makeElement('label',numberSpelling[index+1],'spell',"",numberSpelling[index+1])
         blank.append(spell)
-        blank.addEventListener('drop',triggerDrop)
-        blank.addEventListener('dragover',allowDrop)
+        $(blank).data('value', correctAnswer[index] ).droppable( {
+            accept: '.box',
+            hoverClass: 'blanks-border',
+            drop: triggerDrop
+          } );
+        // blank.addEventListener('drop',triggerDrop)
+        //blank.addEventListener('dragover',allowDrop)
         blank.addEventListener('dragenter', showBlock)
         blank.addEventListener('dragleave', removeBlock)
         blank.addEventListener('mouseover', updateBlank)
@@ -242,6 +276,7 @@ const updateUserData = (dataObject) => {
     shuffled = dataObject.shuffled
     correctAnswer = dataObject.answer
     caption = dataObject.caption
+    correctCards=0
 
     // Setting Image Source 
     eleImage.src = dataObject.asset
