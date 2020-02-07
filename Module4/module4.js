@@ -35,14 +35,6 @@ const makeElement = (type, elementID, elementClass, value = "", text = "", width
     }
     return element
 }
-function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
   
 const setModule = () =>{
     const question = currentData.question
@@ -69,12 +61,11 @@ const setModule = () =>{
 
 const resetModule = (event) =>{
     eleBlank.innerHTML = ""
-    eleBoxes.innerHTML = ""
-    boxes = [] 
-    blanks = []
-    wrongFilledBlanks = []
-    userAnswer = []
-    correctAnswer = []
+    currentData = undefined
+    startTime = null
+    correctAnswer= null
+    userAnswer = null
+    questionId = null
     renderInit()
 }
 
@@ -86,23 +77,8 @@ const setUserData = (submitTime, status)=>{
 
 const updateUserData = (dataObject) => {
     currentData = dataObject
+    questionId = currentData.question_id
     setModule()
-}
-
-const updateBlank = (event) => {
-    if(isAnswerCorrect == true) return
-    let index = event.target.id.toString().split('blank')[1]
-    let element = document.createElement('div')
-    element.innerHTML = correctAnswer[index]
-    element.style.fontSize = '1.6rem'
-    // if(element.innerHTML == undefined){
-    //     return
-    // }
-    // if(event.target.childElementCount >= 1){
-    //     return
-    // }
-    // event.target.appendChild(element)
-    // setTimeout(event.target.remove(event.target.lastChild),2000)
 }
 
 const getMethod = (url) => {
@@ -129,7 +105,8 @@ const postMethod = (url) => {
     let data = {
         start_time: startTime, 
         end_time: endTime, 
-        user_response: userAnswer, 
+        user_response: userAnswer,
+        question_id: questionId,  
     }
     console.log(data)
     fetch(url, {
