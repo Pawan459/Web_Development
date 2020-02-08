@@ -8,8 +8,8 @@ const eleBlanks = document.getElementById('fillBlanks'),
 
 // static elements
 const domainName = `15.206.80.44`
-const getURL = undefined
-const postURL = undefined
+const getURL = 'http://15.206.80.44/api/v2/english/6/1/get_data'
+const postURL = 'http://15.206.80.44/api/v2/english/6/1/post_user_response'
 let currentData,
     startTime, correctAnswer, userAnswer, questionId, status, isAnswerCorrect = false;
 
@@ -80,6 +80,7 @@ const setUserData = (submitTime, questionStatus)=>{
 const updateUserData = (dataObject) => {
     currentData = dataObject
     questionId = currentData.question_id
+    startTime = new Date()
     setModule()
 }
 
@@ -87,7 +88,6 @@ const getMethod = (url) => {
     if(url == undefined){
         getData()
         .then(({ data }) => {
-            startTime = new Date()
             updateUserData(data);
         });
         return
@@ -103,12 +103,31 @@ const getMethod = (url) => {
         .catch(err => console.log('we got a error in Get Method', err))
 }
 
+const makeFormattedDate = (dateObject) => {
+
+    Number.prototype.padding = function (base, chr) {
+        var len = (String(base || 10).length
+            - String(this).length) + 1;
+
+        return len > 0 ? new Array(len).join(chr || '0')
+            + this : this;
+    }
+
+    let result = [dateObject.getFullYear().padding(),
+        (dateObject.getMonth() + 1).padding(),
+        dateObject.getDate()].join('-')
+            + ' ' + [dateObject.getHours().padding(),
+            dateObject.getMinutes().padding(),
+            dateObject.getSeconds().padding()].join(':');
+    return result
+}
+
 const postMethod = (url) => {
     let data = {
-        start_time: startTime, 
-        end_time: endTime, 
-        user_response: userAnswer,
-        question_id: questionId,  
+        question_id: questionId,
+        start_time: makeFormattedDate(startTime), 
+        end_time: makeFormattedDate(endTime), 
+        user_response: [userAnswer],  
     }
     console.log(data)
     if(url == undefined) return
@@ -116,8 +135,8 @@ const postMethod = (url) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Accept: 'application/json',
-            Authorization: 'UKreajCWVVzA8vJ9ZB6oyFSvlqkINTHvD2vGeNxBcaG9UtJDxYnftOOc1yVt'
+            'Accept': 'application/json',
+            'Authorization': 'UKreajCWVVzA8vJ9ZB6oyFSvlqkINTHvD2vGeNxBcaG9UtJDxYnftOOc1yVt'
         },
         body: JSON.stringify(data)
     })
