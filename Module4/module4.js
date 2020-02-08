@@ -35,6 +35,7 @@ const makeElement = (type, elementID, elementClass, value = "", text = "", width
 const updateInput = (event) =>{
     let input = eleBlanks.getElementsByTagName('input')[0]
     input.value = event.target.innerText
+	userAnswer = input.value
     voiceAssistant(input.value)
 }
   
