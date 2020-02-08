@@ -68,7 +68,6 @@ const resetModule = (event) =>{
     eleBlanks.innerHTML = ""
     eleShuffledArray.innerHTML=""
 	userAnswer = null
-	isAnswerCorrect = false
     renderInit()
 }
 
@@ -138,7 +137,7 @@ const correctionMessage = (message) => {
 }
 
 const validateAnswer = (event)=>{
-    if(userAnswer.toLowerCase() == correctAnswer){
+    if(userAnswer && userAnswer.toLowerCase() == correctAnswer){
         isAnswerCorrect = true
         eleNextStageButton.classList.remove('next-stage-btn-wobbel')
         voiceAssistant(`Congratulations!! correct answer.`)
