@@ -67,6 +67,8 @@ const setModule = () =>{
 const resetModule = (event) =>{
     eleBlanks.innerHTML = ""
     eleShuffledArray.innerHTML=""
+	userAnswer = null
+	isAnswerCorrect = false
     renderInit()
 }
 
