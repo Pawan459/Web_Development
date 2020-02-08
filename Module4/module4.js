@@ -115,7 +115,7 @@ const makeFormattedDate = (dateObject) => {
 
     let result = [dateObject.getFullYear().padding(),
         (dateObject.getMonth() + 1).padding(),
-        dateObject.getDate()].join('-')
+        dateObject.getDate().padding()].join('-')
             + ' ' + [dateObject.getHours().padding(),
             dateObject.getMinutes().padding(),
             dateObject.getSeconds().padding()].join(':');
