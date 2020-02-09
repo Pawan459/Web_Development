@@ -175,10 +175,10 @@ const checkAnswer = () =>{
     }
 
     isAnswerCorrect = true
-    for(let i = 0;i<user.length;i++){
-        if(!correctAnswer.includes(user[i][0])){
+    for(let i = 0;i<userAnswer.length;i++){
+        if(!correctAnswer.includes(userAnswer[i][0])){
             isAnswerCorrect = false
-            user[i][1].classList.add('wrongAnswer')
+            userAnswer[i][1].classList.add('wrongAnswer')
         }
     }
 
