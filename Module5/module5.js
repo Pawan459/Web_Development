@@ -64,7 +64,7 @@
         eleBlanks.innerHTML = ""
         eleShuffledArray.innerHTML = ""
         userAnswer = []
-
+        wordMap = new Map()
         renderInit()
     }
 
