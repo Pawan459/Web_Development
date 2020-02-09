@@ -11,7 +11,7 @@ const domainName = `15.206.80.44`
 const getURL = undefined
 const postURL = undefined
 let currentData,
-    startTime, correctAnswer=[], userAnswer=[], wrongAnswer=[], questionId, status, isAnswerCorrect = false;
+    startTime, correctAnswer=[], userAnswer=[], questionId, status, isAnswerCorrect = false;
 
 let wordMap = new Map()
 // Function Declrations
@@ -62,7 +62,8 @@ const setModule = () =>{
 const resetModule = (event) =>{
     eleBlanks.innerHTML = ""
     eleShuffledArray.innerHTML=""
-	userAnswer = null
+    userAnswer = []
+    
     renderInit()
 }
 
@@ -166,7 +167,13 @@ const comparatorNodeString = (a, b) => {
     return a > b ? -1 : b > a ? 1 : 0
 }
 
-const checkAnswer = (user, correct) =>{
+const checkAnswer = () =>{
+    if(userAnswer.length < correctAnswer){
+        let message = `Please choose all the correct Answers`
+        voiceAssistant(message)
+        return isAnswerCorrect
+    }
+
     isAnswerCorrect = true
     for(let i = 0;i<user.length;i++){
         if(!correctAnswer.includes(user[i][0])){
@@ -183,7 +190,7 @@ const validateAnswer = (event)=>{
     eleBlanks.childNodes.forEach(element => userAnswer.push([element.innerText, element]))
     userAnswer.shift()
     userAnswer.sort(comparatorNodeString)
-    if(checkAnswer(userAnswer, correctAnswer)){
+    if(checkAnswer()){
         eleNextStageButton.classList.remove('next-stage-btn-wobbel')
         voiceAssistant(`Congratulations!! correct answer.`)
         setUserData(new Date(), 0)
