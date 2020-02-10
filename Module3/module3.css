@@ -33,11 +33,10 @@ img[src=""], .not-start {
 
 .boxes .box {
     margin: 0 0 0 10px;
-    background: #666 !important;
+    background: whitesmoke !important;
 }
 
 .box{
-    color: white;
     width: max-content;
     height: 40px;
     padding: 15px;
@@ -58,9 +57,9 @@ img[src=""], .not-start {
     padding-bottom: 0;
     border: 2px solid #333;
     border-radius: 10px;
-    color: #fff;
+    color: grey;
     font-size: 50px;
-    text-shadow: 0 0 3px #000;
+    text-shadow: 0 0 1px #000;
 }
 
 .box *{
@@ -172,6 +171,13 @@ img[src=""], .not-start {
 
 #resetButton {
     margin-left: 10px;
+}
+
+#module-panel{
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    background: #39a2a6;
 }
 
 
