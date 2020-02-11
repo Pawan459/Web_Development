@@ -1,0 +1,24 @@
+#result-input {
+  height: 60px;
+  width: 70px;
+}
+#input-error-msg {
+  color: red;
+  margin-top: 4px;
+}
+.hide {
+  display: none;
+}
+.divider {
+  border: 1px solid;
+}
+.img-container-small,
+.img-container-large {
+  display: block;
+  text-align: center;
+}
+.highlight{
+  color: red;
+  transform: scale(1.2); 
+  display: inline-block;
+}

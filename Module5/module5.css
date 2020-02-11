@@ -70,14 +70,16 @@ img[src=""], .not-start {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     color: #333;
     user-select: none;
-    box-sizing: border-box;
+    box-sizing: content-box;
     margin: 5px 10px 5px 10px;
     background: #ddf;
-    padding: 10px;
+    padding: 15px;
     border: 2px solid #333;
     border-radius: 10px;
     box-shadow: 0 0 0.3em rgba(0, 0, 0, .8);
     text-shadow: 0 0 3px rgb(149, 250, 203);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2rem;
 }
 
 .blank-input{

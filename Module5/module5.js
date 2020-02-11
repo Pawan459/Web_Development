@@ -45,6 +45,7 @@
         if (!wordMap.has(word.id)) {
             eleBlanks.appendChild(word)
             wordMap.set(word.id, word)
+            // voiceAssistant(word.innerText)
         }
     }
 
