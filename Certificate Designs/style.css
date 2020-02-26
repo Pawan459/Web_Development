@@ -1,0 +1,66 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container-fluid{
+    position: relative;
+    display: flex;
+    background-image: linear-gradient(#5BC6D9, #673BAD);
+    width: 100%;
+    height: max-content;
+}
+
+header, .mainContent{
+    width: 50%;
+}
+
+footer{
+    width: 80%;
+    display: flex;
+    padding: 2%;
+    margin: 1%;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+}
+
+footer img{
+    width: 80%;
+    height: 80%;
+}
+
+.signature{
+    text-align: center;
+}
+
+.signature h2{
+    color: grey;
+    font-size: 1.5rem;
+}
+
+.signature svg{
+    width: 80%;
+    height: 20%;
+    border-bottom: 1px solid black;
+}
+
+header h1{
+    color: #5BC6D9;
+    padding: 2%;
+    border-top: 1px solid rgb(38, 184, 184);
+    border-bottom: 1px solid rgb(38, 184, 184);
+}
+
+.certificate-content{
+    width: 80%;
+    height: max-content;
+    margin: 5% auto 5% auto;
+    background-color: white;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    border-radius: 5px ;
+}
