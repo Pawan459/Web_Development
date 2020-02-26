@@ -11,22 +11,24 @@ label,p{
 }
 
 header{
-    width: 70%;
+    width: 60%;
 }
 
 .mainContent{
-    width : 68%;
+    width : 58%;
 }
 
 .nameStuff h3{
     font-size: 2vw;
     font-family: 'Open Sans, Semibold';
+    margin: 1%;
 }
+
 
 footer{
     width: 80%;
     display: flex;
-    margin-top: 10.6%;
+    margin-top: 8%;
     justify-content: space-between;
     align-content: center;
     align-items: center;
