@@ -1,7 +1,10 @@
 *{
     font-family: Arial, Helvetica, sans-serif;
 }
-
+label, p{
+    font-family: 'Roboto Mono';
+    font-size: large;
+}
 .container-fluid{
     position: relative;
     display: flex;
@@ -11,7 +14,12 @@
 }
 
 header, .mainContent{
-    width: 50%;
+    width: 60%;
+}
+
+.nameStuff h3{
+    font-size: 1.5rem;
+    font-family: 'Lato';
 }
 
 footer{
@@ -47,6 +55,7 @@ footer img{
 header h1{
     color: #5BC6D9;
     padding: 2%;
+    font-size: 2.5rem;
     border-top: 1px solid rgb(38, 184, 184);
     border-bottom: 1px solid rgb(38, 184, 184);
 }
