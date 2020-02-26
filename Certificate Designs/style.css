@@ -5,7 +5,7 @@ label,p{
 
 .container-fluid{
     display: flex;
-    background-image: linear-gradient(#5BC6D9, #673BAD);
+    background-color: #5BC6D9;
     width: 100%;
     height: max-content;
 }
@@ -26,6 +26,7 @@ header{
 footer{
     width: 80%;
     display: flex;
+    margin-top: 10.6%;
     justify-content: space-around;
     align-content: center;
     align-items: center;
@@ -69,7 +70,22 @@ header h1{
     min-height: 11.6vh;
     text-align: unset;
     border-bottom: 1px solid black;
+    display: inline;
+    margin: 0;
 }
+
+.underLine h3{
+    margin: 0;
+    padding: 1vh;
+    font-size: 1.5vw;
+    border-bottom: 1px solid black;
+}
+
+#dateContent{
+    position: inherit;
+    margin-top: 4%;
+}
+
 
 .certificate-content{
     width: 90%;
@@ -82,5 +98,5 @@ header h1{
     display: flex;
     flex-direction: column;
     padding: 2%;
-    border-radius: 5px ;
+    border-radius: 7px ;
 }
