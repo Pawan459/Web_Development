@@ -3,7 +3,7 @@
 }
 label, p{
     font-family: 'Roboto Mono';
-    font-size: large;
+    font-size: 1.5vw;
 }
 .container-fluid{
     position: relative;
@@ -18,7 +18,7 @@ header, .mainContent{
 }
 
 .nameStuff h3{
-    font-size: 1.5rem;
+    font-size: 2vw;
     font-family: 'Lato';
 }
 
@@ -43,7 +43,7 @@ footer img{
 
 .signature h2{
     color: grey;
-    font-size: 1.5rem;
+    font-size: 1.5vw;
 }
 
 .signature svg{
@@ -55,7 +55,7 @@ footer img{
 header h1{
     color: #5BC6D9;
     padding: 2%;
-    font-size: 2.5rem;
+    font-size: 3vw;
     border-top: 1px solid rgb(38, 184, 184);
     border-bottom: 1px solid rgb(38, 184, 184);
 }
