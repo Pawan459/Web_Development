@@ -1,9 +1,9 @@
 label,p{
     font-family: 'Roboto-Regular';
+    font-size: 1.5vw;
 }
 
 .container-fluid{
-    position: relative;
     display: flex;
     background-image: linear-gradient(#5BC6D9, #673BAD);
     width: 100%;
@@ -19,7 +19,7 @@ header{
 }
 
 .nameStuff h3{
-    font-size: 2vw;
+    font-size: 2.5vw;
     font-family: 'Open Sans, Semibold';
 }
 
@@ -58,7 +58,7 @@ header h1{
     padding: 2%;
     text-align: center;
     letter-spacing: 0;
-    font-size: 3vw;
+    font-size: 3.5vw;
     font-family: 'Open Sans, Bold';
     border-top: 1px solid #3BAAE3;;
     border-bottom: 1px solid #3BAAE3;;
