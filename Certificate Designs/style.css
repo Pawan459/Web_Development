@@ -1,10 +1,7 @@
-*{
-    font-family: Arial, Helvetica, sans-serif;
+label,p{
+    font-family: 'Roboto-Regular';
 }
-label, p{
-    font-family: 'Roboto Mono';
-    font-size: 1.5vw;
-}
+
 .container-fluid{
     position: relative;
     display: flex;
@@ -13,20 +10,22 @@ label, p{
     height: max-content;
 }
 
-header, .mainContent{
+header{
     width: 60%;
+}
+
+.mainContent{
+    width : 50%;
 }
 
 .nameStuff h3{
     font-size: 2vw;
-    font-family: 'Lato';
+    font-family: 'Open Sans, Semibold';
 }
 
 footer{
     width: 80%;
     display: flex;
-    padding: 2%;
-    margin: 1%;
     justify-content: space-around;
     align-content: center;
     align-items: center;
@@ -43,7 +42,9 @@ footer img{
 
 .signature h2{
     color: grey;
-    font-size: 1.5vw;
+    font-size: 2vw;
+    font-family: 'Roboto-Regular';
+    padding: 2vw;
 }
 
 .signature svg{
@@ -53,17 +54,27 @@ footer img{
 }
 
 header h1{
-    color: #5BC6D9;
+    color: #3BAAE3;
     padding: 2%;
+    text-align: center;
+    letter-spacing: 0;
     font-size: 3vw;
-    border-top: 1px solid rgb(38, 184, 184);
-    border-bottom: 1px solid rgb(38, 184, 184);
+    font-family: 'Open Sans, Bold';
+    border-top: 1px solid #3BAAE3;;
+    border-bottom: 1px solid #3BAAE3;;
+}
+
+.underLine{
+    min-width: 8vw;
+    min-height: 11.6vh;
+    text-align: unset;
+    border-bottom: 1px solid black;
 }
 
 .certificate-content{
-    width: 80%;
+    width: 90%;
     height: max-content;
-    margin: 5% auto 5% auto;
+    margin: 5% 4% 5% 4%;
     background-color: white;
     justify-items: center;
     align-items: center;
