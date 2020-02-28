@@ -1,21 +1,23 @@
 const eleSideNav = document.getElementById('sideNav')
 const eleTableData = document.getElementById('tableData')
 
-let originalData = [], currentData = []
+let originalData = [], currentData = [], filterKeys = []
 
 let lastIndex = 0, maxIndex = undefined, limit = 15, tableIndex = 0, rowIndex = 0
-let filterKeys = [], rowKeys = {}, allRows = {}, appliedFilter = {}
-let dataFilteration = new Map(), allFilter = new Map()
+let dataFilteration = {}, allFilter = {}, rowKeys = {}, allRows = {}, appliedFilter = {}
 
 const unionOperation = (firstArray, secondArray) => {
+    // return the union of two arrays
     return [...new Set([...firstArray, ...secondArray])]
 }
 
 const intersectionOperation = (firstArray, secondArray) => {
+    //  return the intersection of two arrays
     return firstArray.filter(value => secondArray.includes(value))
 }
 
 const applyKeyWiseFilter = (superRowSet, filterValue, keyIndex) => {
+    // Get all the data members from the superset which have that filter value
     let arr = []
     Object.values(superRowSet).forEach(row => {
         let col = [...row.cells]
@@ -25,6 +27,7 @@ const applyKeyWiseFilter = (superRowSet, filterValue, keyIndex) => {
 }
 
 const insertRow = (rowData, tableBodyId) => {
+    // insert row in the in specified table body
 
     let tableBody = document.getElementById(tableBodyId)
     let tableRow = document.createElement('tr')
@@ -45,6 +48,7 @@ const insertRow = (rowData, tableBodyId) => {
 }
 
 const checkStringOccurence = (value, arr) => {
+    // Check whether the string value occurs in the given array or not 
     for(let i = 0; i< arr.length;i++){
         if(arr[i] == value) return true
     }
@@ -52,6 +56,7 @@ const checkStringOccurence = (value, arr) => {
 }
 
 const checkFilters = (rowData)=>{
+    // Only called on infinite scroll event
     if(rowData){
         let arr = [...allRows[rowData['account']].cells]
         Object.keys(appliedFilter).forEach(key => {
@@ -65,6 +70,13 @@ const checkFilters = (rowData)=>{
         })
         return
     }
+
+    // Logic is just to get all the filter types filter then intersect it
+    // For example -> 
+    //      Filter Type -> filters
+    //      accountName -> Savings Account U Checkings Account
+    //      transactionType -> deposit U payment
+    //      result -> accountName intersection transactionType
     let prev = currentData, arr = currentData
     let keys = Object.keys(appliedFilter)
     for(let i = 0; i< keys.length;i++){
@@ -74,11 +86,16 @@ const checkFilters = (rowData)=>{
         }
         else {
             arr = unionOperation(arr, applyKeyWiseFilter(allRows, appliedFilter[keys[i]], keys[i]))
+            // If we get empty array then we don't have to alter the data
+            // previous state of data is the reuquired state
             if(arr.length == 0) continue
             prev = intersectionOperation(arr, prev)
         }
     }
+    // Updating Our Current Data
     currentData = prev
+
+    // Updating all the Available Rows Based On the Current Data
     Object.values(allRows).forEach(value => {
         if(currentData.includes(value) || currentData.length == 0){
             value.classList.remove('hideRow')
@@ -87,16 +104,20 @@ const checkFilters = (rowData)=>{
             value.classList.add('hideRow')
         }
     })
+
     checkData(currentData)
 }
 
 const checkData = (currentData) => {
+    // Filter our current data so that it doesn't contains any irrelevant value
     try {
         currentData = currentData.filter(value => !value.classList.contains('hideRow'))
     } catch (error) {
         
     }
     
+    // Checking if the current data length is 
+    // sufficient to fit in the screen or not to get a scroll bar
     if (currentData.length < 15 && currentData.length>0) {
         console.log(currentData.length)
         processData(originalData)
@@ -106,6 +127,7 @@ const checkData = (currentData) => {
 }
 
 const updateTableHeadings = (tableHeading, tableHeadId, rowValue) => {
+    // Update the table headings of the specified table head
     let tableHead = document.getElementById(tableHeadId)
 
     let th = document.createElement('th')
@@ -116,8 +138,9 @@ const updateTableHeadings = (tableHeading, tableHeadId, rowValue) => {
 }
 
 const updateSideNav = (filterType, data) => {
-    if(!dataFilteration.get(filterType)){
-        dataFilteration.set(filterType, true)
+    // Check if that filter is permitted to have filteration or not.
+    if(!dataFilteration[filterType]){
+        dataFilteration[filterType] = true
 
         let header = document.createElement('h5')
         header.innerHTML = filterType.toString().toUpperCase()
@@ -134,7 +157,7 @@ const updateSideNav = (filterType, data) => {
     }
 
     // If we already have that Filter no need To Do Anything
-    if(allFilter.has(data[filterType])) return
+    if(allFilter[data[filterType]]) return
 
     let mainDiv = document.getElementById(filterType)
 
@@ -150,12 +173,12 @@ const updateSideNav = (filterType, data) => {
 
     mainDiv.appendChild(textLabel)
 
-    allFilter.set(data[filterType], true)
+    allFilter[data[filterType]] = true
 }
 
 const updateFiters = (filterKeys) => {
     filterKeys.forEach(element => {
-        dataFilteration.set(element, false)
+        dataFilteration[element] = false
     });
 }
 
