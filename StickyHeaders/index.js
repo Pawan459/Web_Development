@@ -5,8 +5,6 @@ const makeContent = () => {
     let mainDiv = document.createElement('div')
     mainDiv.className = 'container'
 
-    
-
     for(let i = 0;i<6;i++){
         let div = document.createElement('div')
         div.className = i
@@ -40,9 +38,8 @@ const renderInit = (event) => {
         else eleBody.append(div)
     }
 
-    stickyElement = document.querySelector('div.header')
+    stickyElement = document.getElementById('header0')
     currTop = stickyElement.offsetTop
-    
 }
 
 const scrollWindowEvent = (event) => {
