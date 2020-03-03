@@ -1,0 +1,125 @@
+p{
+    margin: 5px;
+    margin-top: 10px;
+}
+
+h3{
+    margin-bottom: 10px;
+}
+
+.container-fluid{
+    position: absolute;
+    width: 1341px;
+    height: 948px;
+    background: #3BAAE3 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+
+.certificate-content{
+    position: absolute;
+    top: 67px;
+    left: 48px;
+    width: 1240px;
+    height: 814px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 1;
+    border-radius: 7px;
+}
+
+.header{
+    position: absolute;
+    top: 92px;
+    left: 370px;
+    width: 496px;
+    height: 109px;
+    text-align: center;
+    justify-content: center;
+    font: Bold 33px/40px Open Sans;
+    letter-spacing: 0;
+    color: #3BAAE3;
+    opacity: 1;
+    padding-top: 20px;
+    border-top: #3BAAE3 1px solid;
+    border-bottom: #3BAAE3 1px solid;
+}
+
+.mainContent{
+    position: absolute;
+    top: 264px;
+    left: 330px;
+    width: 588px;
+    height: 242px;
+    opacity: 1;
+    text-align: center;
+}
+
+
+.nameStuff{
+    font-family: Roboto-Regular;
+    color: #040505;
+}
+
+.nameStuff h3{
+    font: Semibold 30px/50px Open Sans;
+    letter-spacing: 0;
+    color: #000000;
+    opacity: 1;
+}
+
+.footer{
+    position: absolute;
+    top: 593px;
+    left: 225px;
+    width: 801px;
+    height: 153px;
+    opacity: 1;
+}
+
+.signature{
+    position: absolute;
+    top: 29px;
+    left: 268px;
+    width: 353px;
+    height: 76px;
+    opacity: 1;
+}
+
+.lim{
+    position: absolute;
+    top: 48px;
+    right: 597px;
+    width: 204px;
+    height: 48px;
+    opacity: 1;
+}
+
+.person-sign{
+    position: absolute;
+    bottom: 29px;
+    left: 162px;
+    width: 191px;
+    height: 48px;
+    opacity: 1;
+    border-bottom: #000000 1px solid;
+    text-align: center;
+}
+
+.underLine{
+    position: absolute;
+    bottom: 29px;
+    left: -10px;
+    width: 151px;
+    height: 48px;
+    opacity: 1;
+    border-bottom: #000000 1px solid;
+    text-align: center;
+}
+
+.certificateLogo{
+    position: absolute;
+    top: 0px;
+    left: 648px;
+    width: 153px;
+    height: 153px;
+    opacity: 1;
+}
