@@ -1,6 +1,8 @@
 const eleSideNav = document.getElementById('sideNav')
 const eleTableData = document.getElementById('tableData')
 
+// checking pull request through git desktop
+
 let originalData = [], currentData = [], filterKeys = []
 
 let lastIndex = 0, maxIndex = undefined, limit = 15, tableIndex = 0, rowIndex = 0
